@@ -18,6 +18,13 @@ var time = 0;
 var skipFiveLevelLock = false;
 var mouseMode = false;
 var timeM = 0;
+const codeinput = document.getElementById('data-input');
+const codetext = document.getElementById('data-text');
+codeinput.onsubmit = parse;
+function parse(event){
+  event.preventDefault();
+}
+
 function mousePressed(){
  mouseP = true; 
 }
@@ -36,6 +43,7 @@ function mouseClicked(){
 }
 function setup() {
   frameRate(60);
+  codeinput.onsubmit = parse;
   win = new Vec(windowWidth,windowHeight);
   herocolors = [ new Color(245, 12, 12), new Color(19, 165, 191), new Color(89, 76, 112)]
   createCanvas(win.x, win.y);  
@@ -132,6 +140,8 @@ textFont("Maven Pro");
    mainMenu = false; 
     game.player.heroProperties(heros[currentHero]);
     game.loadLevel();
+    codeinput.setAttribute('hidden',true);
+    codetext.setAttribute('hidden',true);
   }
   if(mouseX<win.x-50 && mouseX>win.x-250 && mouseY>305 && mouseY<355&& !switchModeLock&& mouseP){
     switchModeLock = true;
