@@ -152,6 +152,8 @@ function SHA256(s) {
 codeinput.onsubmit = parse;
 function parse(event){
   event.preventDefault();
+  
+  console.log(codeinput.value);
 
   if (SHA256(codeinput.value) === "7b05d48716ba291c4bac7c13e299f8af3ab62adc293d758b302f36650ba0875a"){
     dev = true;
