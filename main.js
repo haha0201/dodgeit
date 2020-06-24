@@ -431,7 +431,9 @@ const controller = new Controller();
 const display = new Display();
 const engine = new Engine(1000/60,update,render);
 
+setTimeout(()=>{
 engine.start();
+},150);
 
 setInterval(()=>{
    if(!finishedSpeedrun&&!mainMenu){
