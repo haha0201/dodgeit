@@ -18,6 +18,7 @@ var time = 0;
 var skipFiveLevelLock = false;
 var mouseMode = false;
 var timeM = 0;
+var dev = false;
 const codeinput = document.getElementById('data-input');
 const codetext = document.getElementById('data-text');
 
@@ -151,6 +152,10 @@ function SHA256(s) {
 codeinput.onsubmit = parse;
 function parse(event){
   event.preventDefault();
+  
+  if (SHA256(codeinput.value) === "7b05d48716ba291c4bac7c13e299f8af3ab62adc293d758b302f36650ba0875a"){
+    dev = true;
+  }
 }
 
 
