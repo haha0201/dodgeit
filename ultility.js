@@ -44,6 +44,7 @@ class MenuButton{
    this.stop = new Vec(stopx,stopy);
    this.size = new Vec(50,50);
    this.type = type;
+   this.time = 3;
  }
   simulate(dt){
   if(mouseX>this.pos.x-this.size.x&&mouseX<this.pos.x+this.size.x&&mouseY>this.pos.y-this.size.y&&mouseY<this.pos.y+this.size.y){
@@ -51,21 +52,27 @@ class MenuButton{
     if(this.type=="Magmax"&&this.vel.y===0){
      fill(0);
       noStroke();
-      text("Magmax",win.x/2-125,win.y/2+win.y/4-10);
+      textAlign(CENTER, CENTER);
+      text("Magmax",win.x/2,win.y/2+win.y/4-25);
       textSize(20);
-          text(`Magmax's Abilites\nJ or Z to flow(makes you go 2x faster)\nK or X to harden(makes you invincible but you can't move and you \ncan harden up to 4 seconds with a cooldown of 3 seconds)`,win.x/2-300,win.y/2+win.y/10);
+          text(`Magmax's Abilites\nJ or Z to flow(makes you go 2x faster)\nK or X to harden(makes you invincible but you can't move and you \ncan harden up to 4 seconds with a cooldown of 3 seconds)`,win.x/2,win.y/2+win.y/10);
+      textAlign(LEFT, BOTTOM);
     }else if(this.type=="Jotunn"&&this.vel.y===0){
         fill(0);
       noStroke();
-      text("Jotunn",win.x/2-125,win.y/2+win.y/4-10);
+      textAlign(CENTER, CENTER);
+      text("Jotunn",win.x/2,win.y/2+win.y/4-25);
        textSize(20);
-       text(`Jotunn's Abilites\nPassive Ability: If enemies are near you, they get 60% slower(Some enemies aren't affected)\nShard Ability: K or Z to shatter enemies away(Some enemies aren't affected)`,win.x/2-400,win.y/2+win.y/10);
+       text(`Jotunn's Abilites\nPassive Ability: If enemies are near you, they get 60% slower(Some enemies aren't affected)\nShard Ability: K or Z to shatter enemies away(Some enemies aren't affected)`,win.x/2,win.y/2+win.y/10);
+      textAlign(LEFT, BOTTOM);
     }else if(this.type=="Kopo"&&this.vel.y===0){
         fill(0);
       noStroke();
-      text("Kopo",win.x/2-100,win.y/2+win.y/4-10);
+      textAlign(CENTER, CENTER);
+      text("Kopo",win.x/2,win.y/2+win.y/4-25);
        textSize(20);
-      text(`Kopo's Abilites\nSmol: J or Z to make itself smaller\nDome Hole!(DH) : K or X to place down an aura(which traps enemies for a certain\namount of time and cannot kill you in the aura) when your smol`,win.x/2-300,win.y/2+win.y/10);
+      text(`Kopo's Abilites\nSmol: J or Z to make itself smaller\nDome Hole!(DH) : K or X to place down an aura(which traps enemies for a certain\namount of time and cannot kill you in the aura) when your smol`,win.x/2,win.y/2+win.y/10);
+      textAlign(LEFT, BOTTOM);
     }
   }
     this.sa*=Math.pow(0.911,dt/16);
@@ -77,21 +84,24 @@ class MenuButton{
     this.vel.y=0; 
    }
     if(this.type=='Jotunn'){
-    fill(25, 213, 255);
+    fill(25, 213, 255, this.time);
     }else if(this.type=='Magmax'){
-      fill(247, 42, 42);
+      fill(247, 42, 42, this.time);
     }else if(this.type=="Kopo"){
-     fill(149, 26, 219); 
+     fill(149, 26, 219, this.time); 
     }
      rect(this.pos.x-(this.size.x*this.sa)/2, this.pos.y-(this.size.y*this.sa)/2, this.size.x*this.sa, this.size.y*this.sa)
     if(this.type=="Jotunn"){
- fill(14, 115, 138);
+ fill(14, 115, 138, this.time);
     }else if(this.type=="Magmax"){
-     fill(84, 5, 5); 
+     fill(84, 5, 5, this.time); 
     }else if(this.type=="Kopo"){
-     fill(50, 8, 74); 
+     fill(50, 8, 74, this.time); 
     }
   rect(this.pos.x-(this.size.x*this.sa)/2, this.pos.y+(this.size.y*this.sa)/69420, this.size.x*this.sa, this.size.y*this.sa/2)
+  if (this.time < 500){
+  this.time*= 1.2;
+  }
   }
 }
 function randomNumber(min, max) {  
