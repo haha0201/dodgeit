@@ -214,11 +214,8 @@ class Display{
     }
     if(game.level !== 0&&game.areas[game.zone]!== undefined){
     text(`${game.areas[game.zone]}: Level ${game.level}`,win.x/2-200 +(600-playerCamera.x)*fov,win.y/2+(-50-playerCamera.y)*fov);
-    }else if(game.level === 0&&game.areas[game.zone]!== undefined&&game.zone!==6){
+    }else if(game.level === 0&&game.areas[game.zone]!== undefined){
       text(`${game.areas[game.zone]}`,win.x/2-200 +(600-playerCamera.x)*fov,win.y/2+(-50-playerCamera.y)*fov);
-    }
-    if(game.zone === 6&&game.level === 0){
-       text(`${game.areas[game.zone]} by haha0201  `,win.x/2-200 +(600-playerCamera.x)*fov,win.y/2+(-50-playerCamera.y)*fov);
     }
     if(game.areas[game.zone]=== undefined){
        text(`Dev Project: Level ${game.level+1}`,win.x/2-200 +(600-playerCamera.x)*fov,win.y/2+(-50-playerCamera.y)*fov);
