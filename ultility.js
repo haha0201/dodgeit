@@ -9,14 +9,25 @@ class Vec{
   }
 }
 class Fade{
- constructor(x,y,xv,yv, stopx,stopy,type){
+ constructor(x,y,xv,yv, stopx,stopy,sizex,sizey,type){
   this.pos = new Vec(x,y);
    this.vel = new Vec(xv,yv);
    this.stop = new Vec(stopx,stopy);
+   this.size = new Vec(sizex,sizey);
    this.type=type;
+   this.counted = false;
  }
-  simulate(){
-    
+  simulate(dt){
+    this.pos.x+=this.vel.x*(1000/60/16);
+    this.pos.y+=this.vel.y*(1000/60/16);
+    if(this.type=="Magmax"){
+      fill(99, 6, 6);
+    }else if(this.type=="Jotunn"){
+     fill(5, 78, 105); 
+    }else if(this.type=="Kopo"){
+     fill(38, 3, 87); 
+    }
+    rect(this.pos.x,this.pos.y,this.size.x,this.size.y);
   }
 }
 class MenuButton{
@@ -28,9 +39,9 @@ class MenuButton{
    this.size = new Vec(50,50);
    this.type = type;
  }
-  simulate(){
+  simulate(dt){
   if(mouseX>this.pos.x-this.size.x&&mouseX<this.pos.x+this.size.x&&mouseY>this.pos.y-this.size.y&&mouseY<this.pos.y+this.size.y){
-    this.sa+=0.2
+    this.sa+=0.2*(dt/16)
     if(this.type=="Magmax"&&this.vel.y===0){
      fill(0);
       noStroke();
@@ -51,11 +62,11 @@ class MenuButton{
       text(`Kopo's Abilites\nSmol: J or Z to make itself smaller\nDome Hole!(DH) : K or X to place down an aura(which traps enemies for a certain\namount of time and cannot kill you in the aura) when your smol`,win.x/2-300,win.y/2+win.y/10);
     }
   }
-    this.sa*=0.911;
+    this.sa*=Math.pow(0.911,dt/16);
     if(this.sa<1)this.sa =1;
-    if(this.sa>=1.7)this.sa = 1.71
+    if(this.sa>=1.7)this.sa = 1.7
     this.pos.y+=this.vel.y;
-    this.yv*=0.7;
+    this.yv*=Math.pow(0.7,dt/16);
    if(this.pos.y<this.stop.y){
     this.vel.y=0; 
    }
