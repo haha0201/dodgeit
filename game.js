@@ -937,14 +937,8 @@ Game.prototype.player = {
   collideEnemy(controller, game) {
     this.slowdown = false;
     this.megaslow = false;
-    for(let enemy of game.enemies){
-        if (dist(enemy.pos.x, enemy.pos.y, this.pos.x, this.pos.y) < this.radius + 200 && enemy.type == 'liquid') {  
-          enemy.speedState = 'fast';
-        } else if (enemy.type == 'liquid') {
-          enemy.speedState = 'normal';
-        }
-       if (this.hero == "Jotunn" ) {
-         if(controller.secondAbility && this.shard){
+    if(controller.secondAbility && this.shard){
+      for(let enemy of game.enemies){
         if (dist(this.pos.x, this.pos.y, enemy.pos.x, enemy.pos.y) < enemy.size / 2 + 150) {
           if (enemy.type != "border" && enemy.type != 'immune') {
             if (enemy.type != 'switch') {
@@ -959,9 +953,17 @@ Game.prototype.player = {
             }
           }
         }
+      }
           this.shard = false;
       this.cooldown = this.shardCooldown;
          }
+    for(let enemy of game.enemies){
+        if (dist(enemy.pos.x, enemy.pos.y, this.pos.x, this.pos.y) < this.radius + 200 && enemy.type == 'liquid') {  
+          enemy.speedState = 'fast';
+        } else if (enemy.type == 'liquid') {
+          enemy.speedState = 'normal';
+        }
+       if (this.hero == "Jotunn" ) {
           if (dist(this.pos.x, this.pos.y, enemy.pos.x, enemy.pos.y) < enemy.size / 2 + 150) {
             if (!enemy.shatter&&enemy.type!="border"&&enemy.type!="switch") {
               enemy.slowdown = true;
