@@ -325,3 +325,6 @@ setInterval(()=>{
    }
   }
 },4000)
+setInterval(()=>{
+ frames++; 
+},1000/60)
