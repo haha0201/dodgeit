@@ -583,7 +583,11 @@ this.spawnEnemy(55, 3, 60, 'border')
         this.spawnEnemy(15,4,200,'switch');
       }else if(this.level === 1){
        this.resetEnemies();
-        this.spawnEnemy(120,5,30,'slowdown');
+        this.spawnEnemy(20,5,30,'dasher');
+          this.spawnEnemy(20,5,30,'homing');
+          this.spawnEnemy(20,5,30,'circle');
+          this.spawnEnemy(20,5,30,'rotate');
+          this.spawnEnemy(20,5,30,'weird');
       }else if(this.level === 2){
        this.resetEnemies();
         this.spawnEnemy(50,5,30,'sniper',200);
