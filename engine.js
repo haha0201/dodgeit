@@ -20,7 +20,7 @@
       }
       if(this.updated){
         this.updated = false;
-      render();
+      render(this.step);
       }
       this.afr = window.requestAnimationFrame((time)=>{this.run(time)});
     }
