@@ -24,6 +24,8 @@ const game = new Game();
 const controller = new Controller();
 const display = new Display();
 const engine = new Engine(1000/60,update,render);
+var canvas;
+var s;
 function mousePressed(){
  mouseP = true; 
 }
@@ -39,6 +41,21 @@ function mouseClicked(){
    }
  }
 
+}
+function resize(){ 
+  let winw = window.innerWidth;
+  let winh = window.innerHeight;
+  let xvalue = winw/canvas.width;
+  let yvalue = winh/canvas.height;
+  s = xvalue;
+  if(yvalue<xvalue){
+    s =yvalue;
+  }
+  canvas.style.transform ="scale(" + s +")";
+  canvas.style.left = (winw-canvas.width)/2 + "px";
+  canvas.style.top =(winh-canvas.height)/2+"px";
+  render(engine.step);
+  win = new Vec(windowWidth,windowHeight);
 }
 function loadImages(){
   imgLogo = createImg('https://cdn.discordapp.com/attachments/720377166424178728/725772850580947074/ddodge_logo_final.png','');
@@ -73,8 +90,10 @@ function setup() {
   win = new Vec(windowWidth,windowHeight);
   }
   herocolors = [ new Color(245, 12, 12), new Color(19, 165, 191), new Color(89, 76, 112)]
-  createCanvas(win.x, win.y);  
+ canvas = createCanvas(win.x,win.y);  
+  canvas.style.position = "absolute";
   loadImages();
+  resize();
 }
 function keyPressed(){
   if(!mainMenu){
@@ -87,8 +106,8 @@ function keyReleased(){
   }
 }
 function windowResized() {
-  win = new Vec(windowWidth, windowHeight)
-  resizeCanvas(win.x, win.y);
+ // resize();
+  resizeCanvas(windowWidth,windowHeight);
 }
 
 function update(dt){
