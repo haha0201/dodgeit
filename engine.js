@@ -22,7 +22,6 @@
         this.updated = false;
       render();
       }
-      frames++;
       this.afr = window.requestAnimationFrame((time)=>{this.run(time)});
     }
     start(){
