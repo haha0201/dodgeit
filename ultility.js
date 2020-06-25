@@ -25,7 +25,7 @@ class Fade{
     }else if(this.type=="Jotunn"){
      fill(5, 78, 105); 
     }else if(this.type=="Kopo"){
-     fill(38, 3, 87); 
+     fill(23, 1, 54); 
     }
     rect(this.pos.x,this.pos.y,this.size.x,this.size.y);
   }
