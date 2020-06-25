@@ -965,7 +965,7 @@ Game.prototype.player = {
         }
        if (this.hero == "Jotunn" ) {
           if (dist(this.pos.x, this.pos.y, enemy.pos.x, enemy.pos.y) < enemy.size / 2 + 150) {
-            if (!enemy.shatter&&enemy.type!="border"&&enemy.type!="switch") {
+            if (!enemy.shatter&&enemy.type!="border"&&(enemy.type!="switch"||(enemy.type=='switch'&&enemy.canDie))) {
               enemy.slowdown = true;
             }
           } else if (enemy.shatter) {
