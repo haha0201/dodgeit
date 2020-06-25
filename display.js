@@ -397,7 +397,9 @@ textFont("Maven Pro");
       fill(10);
         stroke(0);
         strokeWeight(1);
-      text("DH",win.x/2-23,win.y-22);
+        textAlign(CENTER, CENTER);
+      text("DH",win.x/2,win.y-30);
+        textAlign(LEFT, BOTTOM);
       }
     }
     textSize(25);
