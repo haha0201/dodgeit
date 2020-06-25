@@ -16,18 +16,24 @@ class Fade{
    this.size = new Vec(sizex,sizey);
    this.type=type;
    this.counted = false;
+   this.time = 255;
+   this.realtime = 0;
  }
   simulate(dt){
     this.pos.x+=this.vel.x*(1000/60/16);
     this.pos.y+=this.vel.y*(1000/60/16);
     if(this.type=="Magmax"){
-      fill(99, 6, 6);
+      fill(99, 6, 6, this.time);
     }else if(this.type=="Jotunn"){
-     fill(5, 78, 105); 
+     fill(5, 78, 105, this.time); 
     }else if(this.type=="Kopo"){
-     fill(23, 1, 54); 
+     fill(23, 1, 54, this.time); 
     }
     rect(this.pos.x,this.pos.y,this.size.x,this.size.y);
+    if (this.realtime > 80){
+   this.time-=2.5*(1000/60/16)
+    }
+    this.realtime ++;
   }
 }
 class MenuButton{
