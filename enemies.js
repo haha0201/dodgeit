@@ -332,7 +332,7 @@ class HomingEnemy extends Enemy{
   if (random(0, 1)<0.5){this.xv *= -1;}
   if (random(0, 1)<0.5){this.yv *= -1;}
   
-  this.period = randomNumber(8,30);
+  this.period = randomNumber(5,10);
   }
   update(game,dt){
         if(this.slowdown&&!this.shatter){
