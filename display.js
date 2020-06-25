@@ -351,6 +351,12 @@ textFont("Maven Pro");
        text(`Aw, you're still here. You might as well complete the levels`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
     }else if(game.level === 2){
        text(`Ready to refresh?`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
+    }else if(game.level === 3){
+       text(`Why do you insist...`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
+    }else if(game.level === 4){
+       text(`You are not a dev. Turn back!`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
+    }else if(game.level === 5){
+       text(`Ok noob.....`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
     }
     }
 
