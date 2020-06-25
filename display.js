@@ -78,7 +78,7 @@ textFont("Maven Pro");
   */
     if(!this.spawnedButtons){
      this.spawnedButtons = true;
-      this.buttons = [new MenuButton(win.x/2-200,win.y/2+win.y/4,0,-6,0,win.y/2-win.y/18,"Magmax"),new MenuButton(win.x/2-50,win.y/2+win.y/4,0,-7,0,win.y/2-win.y/18,"Jotunn"),new MenuButton(win.x/2+100,win.y/2+win.y/4,0,-8,0,win.y/2-win.y/18,"Kopo")]
+      this.buttons = [new MenuButton(win.x/2-100,win.y/2+win.y/4,0,-6,0,win.y/2-win.y/18,"Magmax"),new MenuButton(win.x/2,win.y/2+win.y/4,0,-7,0,win.y/2-win.y/18,"Jotunn"),new MenuButton(win.x/2+100,win.y/2+win.y/4,0,-8,0,win.y/2-win.y/18,"Kopo")]
     }
     background(205);
     fill(255);
@@ -90,7 +90,7 @@ textFont("Maven Pro");
     noStroke();
     fill(25, 213, 255);
  //   text("Dodge It",win.x/2-140,win.y/6);
-    image(imgLogo,win.x/2-290,-100,550,450);
+    image(imgLogo,win.x/2-270,-100,550,450);
     for(let button of this.buttons){
      button.simulate(dt); 
       if(mouseP&&button.sa>1&&!this.spawnedFades){
