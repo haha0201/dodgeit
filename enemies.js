@@ -235,12 +235,12 @@ class CircleEnemy extends Enemy{
  }
   update(game,dt){
             if(this.slowdown&&!this.shatter){
-  this.pos.x += this.xv*((sin(frames/240)+1)*(dt/16)+ random(-0.1, 0.1))*0.6
-      this.pos.y += this.yv*((cos(frames/240)+1)*(dt/16)+ random(-0.1, 0.1))*0.6
+  this.pos.x += this.xv*((sin(frames/40)+1)*(dt/16)+ random(-0.1, 0.1))*0.6
+      this.pos.y += this.yv*((cos(frames/40)+1)*(dt/16)+ random(-0.1, 0.1))*0.6
     }
     if(this.shatter){
-       this.pos.x += this.xv*((sin(frames/240)+1)*(dt/16) + random(-0.1, 0.1))*0.8
-  this.pos.y += this.yv*((cos(frames/240)+1)*(dt/16) + random(-0.1, 0.1))*0.8
+       this.pos.x += this.xv*((sin(frames/40)+1)*(dt/16) + random(-0.1, 0.1))*0.8
+  this.pos.y += this.yv*((cos(frames/40)+1)*(dt/16) + random(-0.1, 0.1))*0.8
       this.cooldownTillDone--;
     }
       if(this.cooldownTillDone ===180){
@@ -248,8 +248,8 @@ class CircleEnemy extends Enemy{
       this.cooldownTillDone = undefined;
     }
     if(!this.shatter && !this.slowdown){
-   this.pos.x += this.xv*(sin(frames/240)+1)*(dt/16)+ random(-0.1, 0.1)
-  this.pos.y += this.yv*(cos(frames/240)+1)*(dt/16) + random(-0.1, 0.1)
+   this.pos.x += this.xv*(sin(frames/40)+1)*(dt/16)+ random(-0.1, 0.1)
+  this.pos.y += this.yv*(cos(frames/40)+1)*(dt/16) + random(-0.1, 0.1)
     }
      this.collideWorld();
       this.baseSpd.x = this.xv;
@@ -303,12 +303,12 @@ class WeirdEnemy extends Enemy{
  }
   update(game,dt){
     if(this.slowdown&&!this.shatter){
-     this.pos.x+=this.xv*sin((cos(frames/240)+1))*0.6*(dt/16)
-      this.pos.y+=this.yv*cos((sin(frames/240)+1))*0.6*(dt/16)
+     this.pos.x+=this.xv*sin((cos(frames/40)+1))*0.6*(dt/16)
+      this.pos.y+=this.yv*cos((sin(frames/40)+1))*0.6*(dt/16)
     }
     if(this.shatter){
-     this.pos.x+=this.xv*sin((cos(frames/240)+1))*0.8*(dt/16)
-      this.pos.y+=this.yv*cos((sin(frames/240)+1))*0.8*(dt/16)
+     this.pos.x+=this.xv*sin((cos(frames/40)+1))*0.8*(dt/16)
+      this.pos.y+=this.yv*cos((sin(frames/40)+1))*0.8*(dt/16)
       this.cooldownTillDone--;
     }
       if(this.cooldownTillDone ===180){
@@ -316,8 +316,8 @@ class WeirdEnemy extends Enemy{
       this.cooldownTillDone = undefined;
     }
     if(!this.shatter && !this.slowdown){
-     this.pos.x +=this.xv*sin((cos(frames/240)+1))*(dt/16)
-      this.pos.y+=this.yv*cos((sin(frames/240)+1))*(dt/16)
+     this.pos.x +=this.xv*sin((cos(frames/40)+1))*(dt/16)
+      this.pos.y+=this.yv*cos((sin(frames/40)+1))*(dt/16)
     }
     this.collideWorld();
       this.baseSpd.x = this.xv;
@@ -332,7 +332,7 @@ class HomingEnemy extends Enemy{
   if (random(0, 1)<0.5){this.xv *= -1;}
   if (random(0, 1)<0.5){this.yv *= -1;}
   
-  this.period = randomNumber(100,200);
+  this.period = randomNumber(8,30);
   }
   update(game,dt){
         if(this.slowdown&&!this.shatter){
@@ -625,12 +625,12 @@ class DasherEnemy extends Enemy{
  }
   update(game,dt){
            if(this.slowdown&&!this.shatter){
-      this.pos.x += this.xv*(sin(frames/240)+1)*0.6*(dt/16)
-      this.pos.y += this.yv*(sin(frames/240)+1)*0.6*(dt/16);
+      this.pos.x += this.xv*(sin(frames/40)+1)*0.6*(dt/16)
+      this.pos.y += this.yv*(sin(frames/40)+1)*0.6*(dt/16);
     }
     if(this.shatter){
-      this.pos.x += this.xv*(sin(frames/240)+1)*0.8*(dt/16);
-      this.pos.y += this.yv*(sin(frames/240)+1)*0.8*(dt/16);
+      this.pos.x += this.xv*(sin(frames/40)+1)*0.8*(dt/16);
+      this.pos.y += this.yv*(sin(frames/40)+1)*0.8*(dt/16);
       this.cooldownTillDone--;
     }
       if(this.cooldownTillDone ===180){
@@ -638,8 +638,8 @@ class DasherEnemy extends Enemy{
       this.cooldownTillDone = undefined;
     }
     if(!this.shatter && !this.slowdown){
-    this.pos.x += this.xv*(sin(frames/240)+1)*(dt/16);
-  this.pos.y += this.yv*(sin(frames/240)+1)*(dt/16);
+    this.pos.x += this.xv*(sin(frames/40)+1)*(dt/16);
+  this.pos.y += this.yv*(sin(frames/40)+1)*(dt/16);
     }
             this.collideWorld();
       this.baseSpd.x = this.xv;
