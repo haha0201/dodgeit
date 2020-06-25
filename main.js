@@ -300,6 +300,10 @@ function render(){
         }
       text(`Deaths:${game.player.deaths}`,win.x/2-70,160);
       if(skippedLevel || skipLevel){
+        fill(255,0,0);
+        noStroke();
+        circle(win.x/2+30,win.y/2-10,300,300);
+        fill(0);
        text(`Skipped Levels`,win.x/2-100,win.y/2) 
       }
     }
