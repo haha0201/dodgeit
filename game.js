@@ -672,6 +672,20 @@ Game.prototype.player = {
     } else {
       this.spd = this.baseSpd
     }
+     if (this.slowdown) {
+      if (this.flow) {
+        this.spd = this.baseSpd*2*0.45;
+      } else {
+        this.spd = this.baseSpd *0.45;
+      }
+    }
+    if (this.megaslow) {
+      if (this.flow) {
+        this.spd = 0.7;
+      } else {
+        this.spd = 0.4;
+      }
+    }
     /* magmax abilities */
     if(this.hero=="Magmax"){
     if (!this.freezed) {
@@ -682,20 +696,6 @@ Game.prototype.player = {
         }
       } else{
         this.flow = false;
-      }
-    }
-    if (this.slowdown) {
-      if (this.flow) {
-        this.spd = this.baseSpd*2*0.4;
-      } else {
-        this.spd = this.baseSpd *0.4;
-      }
-    }
-    if (this.megaslow) {
-      if (this.flow) {
-        this.spd = 0.7;
-      } else {
-        this.spd = 0.4;
       }
     }
     if (controller.secondAbility) {
@@ -801,8 +801,6 @@ Game.prototype.player = {
         }
       }
     }
-    this.megaslow = false;
-    this.slowdown = false;
     if (controller.up) {
       this.vel.y -= this.spd;
     }
@@ -824,7 +822,8 @@ Game.prototype.player = {
     this.pos.y += this.vel.y*(dt/16)
     this.vel.x *=Math.pow(this.friction,dt/16)
     this.vel.y *=Math.pow(this.friction,dt/16);
-
+    this.megaslow = false;
+    this.slowdown = false;
     /* bounding player */
     if (this.pos.x < this.radius) {
       this.pos.x = this.radius;
@@ -939,8 +938,7 @@ Game.prototype.player = {
     }
   },
   collideEnemy(controller, game) {
-    this.slowdown = false;
-    this.megaslow = false;
+    
     if(controller.secondAbility && this.shard){
       for(let enemy of game.enemies){
         if (dist(this.pos.x, this.pos.y, enemy.pos.x, enemy.pos.y) < enemy.size / 2 + 150) {
@@ -972,7 +970,7 @@ Game.prototype.player = {
             if (!enemy.shatter&&enemy.type!="border"&&(enemy.type!="switch"||(enemy.type=='switch'&&enemy.canDie))) {
               enemy.slowdown = true;
             }
-          } else if (enemy.shatter) {
+          } else if (enemy.shatter||(enemy.type=='switch'&&!enemy.canDie)) {
             enemy.slowdown = false;
           } else {
             enemy.slowdown = false;
