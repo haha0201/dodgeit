@@ -1,27 +1,22 @@
 class Display{
  constructor(){
+   
  }
   draw(game,fov,playerCamera,win,outline){
     background(150);
     if(game.zone === 0 ){
      background(168,215,237,120); 
-    }    
-    if(game.zone === 1){
+    }else if(game.zone === 1){
      background(4, 76, 105,120); 
-    }
-    if(game.zone === 2){
+    }else if(game.zone === 2){
      background(200,41,0,60); 
-    }
-    if(game.zone === 3 || game.zone ===4){
+    }else if(game.zone === 3 || game.zone ===4){
     background(10,10,10,220);
-    }
-    if(game.zone === 5){
+    }else if(game.zone === 5){
      background(221, 204, 255,80); 
-    }
-    if(game.zone === 6){
+    }else if(game.zone === 6){
      background(107, 27, 227,80) 
-    }
-    if(game.zone === game.hellZone){
+    }else if(game.zone === game.hellZone){
       background(40,40,40,220);
     }
     /* drawing map */
@@ -152,7 +147,7 @@ class Display{
       if(enemy.auraSize){
       circle(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.auraSize*fov);
       }
-      }
+    }
     /* drawing bullets */
     
     if(outline){
@@ -205,6 +200,7 @@ class Display{
     textSize(60*fov);
     stroke(170);
     strokeWeight(10*fov)
+    fill(255,0,0);
     if(game.zone === 0 || game.zone === 1){
     fill(46, 184, 209);
     }else if(game.zone === 2){
