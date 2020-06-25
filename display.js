@@ -1,8 +1,13 @@
 class Display{
  constructor(){
   this.spawnedButtons = false;
+   this.buttons =[];
+   this.spawnedFades = false;
+   this.fades=[];
+   this.activatedFades = false;
+   this.fadesOnScreen = 0;
  }
-  menu(){
+  menu(dt){
    /*background(herocolors[currentHero].r,herocolors[currentHero].g,herocolors[currentHero].b)
 textFont("Maven Pro");
   stroke(0);
@@ -87,19 +92,36 @@ textFont("Maven Pro");
  //   text("Dodge It",win.x/2-140,win.y/6);
     image(imgLogo,win.x/2-290,-100,550,450);
     for(let button of this.buttons){
-     button.simulate(); 
-      if(mouseP&&button.sa>1){
-        if(button.type=="Magmax"){
+     button.simulate(dt); 
+      if(mouseP&&button.sa>1&&!this.spawnedFades){
+        this.activatedFades = true;
+       if(button.type=="Magmax"){
          currentHero=0; 
         }else if(button.type=="Jotunn"){
          currentHero=1; 
         }else if(button.type=="Kopo"){
          currentHero=2;
         }
+      }
+    }
+    if(this.activatedFades){
+     this.spawnedFades = true;
+     this.activatedFades = false;
+      this.fades =[new Fade(win.x,0,-15,0,0,0,win.x*2,win.y/3,"Magmax"),new Fade(win.x,win.y/3,-20,0,0,0,win.x*2,win.y/3,"Jotunn"),new Fade(win.x,win.y/3+win.y/3,-25,0,0,0,win.x*2,win.y/3,"Kopo")]
+    }
+    if(this.fades!=[]){
+     for(let fade of this.fades){
+      fade.simulate(dt); 
+       if(fade.pos.x<-200&&!fade.counted){
+         fade.counted = true;
+        this.fadesOnScreen++; 
+       }
+     }
+    }
+    if(this.fadesOnScreen===3){
          mainMenu = false; 
     game.player.heroProperties(heros[currentHero]);
     game.loadLevel();
-      }
     }
   }
   draw(game,fov,playerCamera,win,outline){
@@ -163,6 +185,7 @@ textFont("Maven Pro");
       }
        rect(win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
     }
+   
     /* drawing enemies */
     for(let enemy of game.enemies){
       if(enemy.type =='normal'){
@@ -385,6 +408,7 @@ textFont("Maven Pro");
     }else{
       text(`Time:${timeM}:0${time}`,win.x-130,30)
     }
+    
   }
   
 }
