@@ -108,6 +108,7 @@ function keyReleased(){
 function windowResized() {
  // resize();
   resizeCanvas(windowWidth,windowHeight);
+ win = new Vec(windowWidth,windowHeight);
 }
 
 function update(dt){
