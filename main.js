@@ -18,148 +18,12 @@ var time = 0;
 var skipFiveLevelLock = false;
 var mouseMode = false;
 var timeM = 0;
-const codeinput = document.getElementById('data-input');
-const codetext = document.getElementById('data-text');
-
-var dev = false;
-
-function SHA256(s) {
-  var chrsz = 8;
-  var hexcase = 0;
-
-  function safe_add(x, y) {
-    var lsw = (x & 0xFFFF) + (y & 0xFFFF);
-    var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
-    return (msw << 16) | (lsw & 0xFFFF);
-  }
-
-  function S(X, n) {
-    return (X >>> n) | (X << (32 - n));
-  }
-
-  function R(X, n) {
-    return (X >>> n);
-  }
-
-  function Ch(x, y, z) {
-    return ((x & y) ^ ((~x) & z));
-  }
-
-  function Maj(x, y, z) {
-    return ((x & y) ^ (x & z) ^ (y & z));
-  }
-
-  function Sigma0256(x) {
-    return (S(x, 2) ^ S(x, 13) ^ S(x, 22));
-  }
-
-  function Sigma1256(x) {
-    return (S(x, 6) ^ S(x, 11) ^ S(x, 25));
-  }
-
-  function Gamma0256(x) {
-    return (S(x, 7) ^ S(x, 18) ^ R(x, 3));
-  }
-
-  function Gamma1256(x) {
-    return (S(x, 17) ^ S(x, 19) ^ R(x, 10));
-  }
-
-  function core_sha256(m, l) {
-    var K = new Array(0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5, 0x3956C25B, 0x59F111F1, 0x923F82A4, 0xAB1C5ED5, 0xD807AA98, 0x12835B01, 0x243185BE, 0x550C7DC3, 0x72BE5D74, 0x80DEB1FE, 0x9BDC06A7, 0xC19BF174, 0xE49B69C1, 0xEFBE4786, 0xFC19DC6, 0x240CA1CC, 0x2DE92C6F, 0x4A7484AA, 0x5CB0A9DC, 0x76F988DA, 0x983E5152, 0xA831C66D, 0xB00327C8, 0xBF597FC7, 0xC6E00BF3, 0xD5A79147, 0x6CA6351, 0x14292967, 0x27B70A85, 0x2E1B2138, 0x4D2C6DFC, 0x53380D13, 0x650A7354, 0x766A0ABB, 0x81C2C92E, 0x92722C85, 0xA2BFE8A1, 0xA81A664B, 0xC24B8B70, 0xC76C51A3, 0xD192E819, 0xD6990624, 0xF40E3585, 0x106AA070, 0x19A4C116, 0x1E376C08, 0x2748774C, 0x34B0BCB5, 0x391C0CB3, 0x4ED8AA4A, 0x5B9CCA4F, 0x682E6FF3, 0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208, 0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2);
-    var HASH = new Array(0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A, 0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19);
-    var W = new Array(64);
-    var a, b, c, d, e, f, g, h, i, j;
-    var T1, T2;
-    m[l >> 5] |= 0x80 << (24 - l % 32);
-    m[((l + 64 >> 9) << 4) + 15] = l;
-    for (var i = 0; i < m.length; i += 16) {
-      a = HASH[0];
-      b = HASH[1];
-      c = HASH[2];
-      d = HASH[3];
-      e = HASH[4];
-      f = HASH[5];
-      g = HASH[6];
-      h = HASH[7];
-      for (var j = 0; j < 64; j++) {
-        if (j < 16) W[j] = m[j + i];
-        else W[j] = safe_add(safe_add(safe_add(Gamma1256(W[j - 2]), W[j - 7]), Gamma0256(W[j - 15])), W[j - 16]);
-        T1 = safe_add(safe_add(safe_add(safe_add(h, Sigma1256(e)), Ch(e, f, g)), K[j]), W[j]);
-        T2 = safe_add(Sigma0256(a), Maj(a, b, c));
-        h = g;
-        g = f;
-        f = e;
-        e = safe_add(d, T1);
-        d = c;
-        c = b;
-        b = a;
-        a = safe_add(T1, T2);
-      }
-      HASH[0] = safe_add(a, HASH[0]);
-      HASH[1] = safe_add(b, HASH[1]);
-      HASH[2] = safe_add(c, HASH[2]);
-      HASH[3] = safe_add(d, HASH[3]);
-      HASH[4] = safe_add(e, HASH[4]);
-      HASH[5] = safe_add(f, HASH[5]);
-      HASH[6] = safe_add(g, HASH[6]);
-      HASH[7] = safe_add(h, HASH[7]);
-    }
-    return HASH;
-  }
-
-  function str2binb(str) {
-    var bin = Array();
-    var mask = (1 << chrsz) - 1;
-    for (var i = 0; i < str.length * chrsz; i += chrsz) {
-      bin[i >> 5] |= (str.charCodeAt(i / chrsz) & mask) << (24 - i % 32);
-    }
-    return bin;
-  }
-
-  function Utf8Encode(string) {
-    string = string.replace(/\r\n/g, "\n");
-    var utftext = "";
-    for (var n = 0; n < string.length; n++) {
-      var c = string.charCodeAt(n);
-      if (c < 128) {
-        utftext += String.fromCharCode(c);
-      } else if ((c > 127) && (c < 2048)) {
-        utftext += String.fromCharCode((c >> 6) | 192);
-        utftext += String.fromCharCode((c & 63) | 128);
-      } else {
-        utftext += String.fromCharCode((c >> 12) | 224);
-        utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-        utftext += String.fromCharCode((c & 63) | 128);
-      }
-    }
-    return utftext;
-  }
-
-  function binb2hex(binarray) {
-    var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
-    var str = "";
-    for (var i = 0; i < binarray.length * 4; i++) {
-      str += hex_tab.charAt((binarray[i >> 2] >> ((3 - i % 4) * 8 + 4)) & 0xF) +
-        hex_tab.charAt((binarray[i >> 2] >> ((3 - i % 4) * 8)) & 0xF);
-    }
-    return str;
-  }
-  s = Utf8Encode(s);
-  return binb2hex(core_sha256(str2binb(s), s.length * chrsz));
-}
-
-codeinput.onsubmit = parse;
-function parse(event){
-  event.preventDefault();
-  
-  console.log(codeinput.value);
-
-  if (SHA256(codeinput.value) === "7b05d48716ba291c4bac7c13e299f8af3ab62adc293d758b302f36650ba0875a"){
-    dev = true;
-  }
-}
-
+var skippedLevel = false;
+var skipLevel = false;
+const game = new Game();
+const controller = new Controller();
+const display = new Display();
+const engine = new Engine(1000/60,update,render);
 function mousePressed(){
  mouseP = true; 
 }
@@ -176,14 +40,8 @@ function mouseClicked(){
  }
 
 }
-function setup() {
-  frameRate(60);
-  engine.start();
-  codeinput.onsubmit = parse;
-  win = new Vec(windowWidth,windowHeight);
-  herocolors = [ new Color(245, 12, 12), new Color(19, 165, 191), new Color(89, 76, 112)]
-  createCanvas(win.x, win.y);  
-imgJotunn = createImg('https://evades.io/winter-wreath.07f00139.png', "");
+function loadImages(){
+  imgJotunn = createImg('https://evades.io/winter-wreath.07f00139.png', "");
 imgJotunn.hide();
   imgJotunnPower1 = createImg('https://evades.io/decay.b84a5b9a.png',"");
   imgJotunnPower1.hide();
@@ -206,6 +64,14 @@ imgJotunn.hide();
   imgKopoPower2 = createImg('https://evades.io/black_hole.c2eb364f.png','');
   imgKopoPower2.hide();
 }
+function setup() {
+  frameRate(60);
+  engine.start();
+  win = new Vec(windowWidth,windowHeight);
+  herocolors = [ new Color(245, 12, 12), new Color(19, 165, 191), new Color(89, 76, 112)]
+  createCanvas(win.x, win.y);  
+  loadImages();
+}
 function keyPressed(){
   if(!mainMenu){
  controller.keys[keyCode] = true; 
@@ -220,7 +86,7 @@ function windowResized() {
   win = new Vec(windowWidth, windowHeight)
   resizeCanvas(win.x, win.y);
 }
-function drawMenu(){
+function Menu(){
   background(herocolors[currentHero].r,herocolors[currentHero].g,herocolors[currentHero].b)
 textFont("Maven Pro");
   stroke(0);
@@ -243,7 +109,7 @@ textFont("Maven Pro");
   text(`Mode:${modes[mode]}`,win.x-245,300);
   textSize(25);
   text(`WASD/Arrows keys to move:P to toggle outline:J and K or Z and X to use abilites:Good luck`,win.x/2-500,win.y-20);
-   text(`Engine under maintenance. Things might not work as expected. Check back in a few days.`,win.x/2-500,win.y-70);
+
 //  fill(255);
   textSize(20)
   strokeWeight(1.5);
@@ -276,8 +142,6 @@ textFont("Maven Pro");
    mainMenu = false; 
     game.player.heroProperties(heros[currentHero]);
     game.loadLevel();
-    codeinput.setAttribute('hidden',true);
-    codetext.setAttribute('hidden',true);
   }
   if(mouseX<win.x-50 && mouseX>win.x-250 && mouseY>305 && mouseY<355&& !switchModeLock&& mouseP){
     switchModeLock = true;
@@ -294,7 +158,7 @@ textFont("Maven Pro");
 function update(dt){
   if(!mainMenu){
   if(game.player.pos.x+game.player.radius>360 && game.player.pos.y-game.player.radius<2760){
-  if(game.zone === 0 || game.zone === 1){ //Crystal Cone and Crystal Cone Hard
+  if(game.zone === 0 || game.zone === 1){ //Crystal Cone and Crystal Cone Hardd
     game.player.friction = 0.8;
   }
   if(game.zone === 2){ //Disastrous Wonderland
@@ -339,7 +203,16 @@ function update(dt){
   }
   if(controller.skipLevel){
    game.player.pos.x = world.x-100; 
-  }/*
+    skippedLevel = true;
+    skipLevel = true;
+  }
+    if(skipLevel){
+     skippedLevel = true; 
+    }
+    if(skippedLevel){
+     skipLevel = true; 
+    }
+       /*
   if(controller.skipFiveLevels&&!skipFiveLevelLock){
     skipFiveLevelLock = true;
    game.level+=4;
@@ -353,7 +226,7 @@ function update(dt){
 }
 function render(){  
   if(mainMenu&&time===0){
-    drawMenu();
+    Menu();
   }else if(!finishedSpeedrun){
   display.draw(game,fov,playerCamera,win,outline,herocolors[currentHero]);
   if(game.player.hero =="Jotunn"){
@@ -362,14 +235,14 @@ function render(){
     image(imgJotunnPower2,win.x/2+40,win.y-60,60,60);
     for(let enemy of game.enemies){
      if(enemy.slowdown){
-      fill(0,0,200,20);
+      fill(0,0,200,50);
        noStroke();
        rect(win.x/2-98,win.y-60,60,60);
        break;
      }
     }
     if(game.player.cooldown >=1){
-      fill(0,0,255,50);
+      fill(0,0,255,70);
       noStroke();
      rect(win.x/2+40,win.y-60,60,60) 
     }
@@ -384,12 +257,12 @@ function render(){
     image(imgMagmaxPumpkin,win.x/2-30,win.y-60,60,60);
     }
     if(game.player.flow){
-     fill(204, 126, 49,90);
+     fill(204, 126, 49,110);
       noStroke();
       rect(win.x/2-98,win.y-60,60,60);
     }
     if(game.player.harden){
-     fill(110, 20, 4,90);
+     fill(110, 20, 4,110);
       noStroke();
       rect(win.x/2+40,win.y-60,60,60);
     }
@@ -403,15 +276,16 @@ function render(){
     image(imgKopoPower1,win.x/2-98,win.y-60,60,60)
      image(imgKopoPower2,win.x/2+40,win.y-60,60,60);
     if(game.player.isSmall){
-     fill(0,0,50,50);
+     fill(0,0,50,70);
       rect(win.x/2-98,win.y-60,60,60);
     }
     if(game.player.cooldown>=1){
-      fill(0,0,70,90);
+      fill(0,0,70,110);
       rect(win.x/2+40,win.y-60,60,60);
     }
   } 
-    if(game.level>=41){
+}
+  if(game.level>=41){
      finishedSpeedrun = true;
       game.level = 41;
       background(125);
@@ -425,14 +299,11 @@ function render(){
          text(`Time:${timeM}:${time}`,win.x/2-70,120); 
         }
       text(`Deaths:${game.player.deaths}`,win.x/2-70,160);
+      if(skippedLevel || skipLevel){
+       text(`Skipped Levels`,win.x/2-100,win.y/2) 
+      }
     }
 }
-}
-const game = new Game();
-const controller = new Controller();
-const display = new Display();
-const engine = new Engine(1000/60,update,render);
-
 setInterval(()=>{
    if(!finishedSpeedrun&&!mainMenu){
    time++;
@@ -442,4 +313,11 @@ setInterval(()=>{
      }
   }
 },1000)
-
+setInterval(()=>{
+  for(let enemy of game.enemies){
+   if(enemy.type =='switch'){
+     globalSwitch++
+     break;
+   }
+  }
+},4000)
