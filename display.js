@@ -1,7 +1,107 @@
 class Display{
  constructor(){
-   
+  this.spawnedButtons = false;
  }
+  menu(){
+   /*background(herocolors[currentHero].r,herocolors[currentHero].g,herocolors[currentHero].b)
+textFont("Maven Pro");
+  stroke(0);
+  strokeWeight(2)
+ rect(win.x/2-200,win.y/2+200,400,50);
+  textSize(90);
+  text("Dodge It",win.x/2-180,150);
+  textSize(20);
+  strokeWeight(1);
+  text("I'm not responsible for any damage that happens to your computer. This is a rage game.",win.x/2-320,200);
+  textSize(30);
+  textFont("Georgia");
+  text("PLAY",win.x/2-50,win.y/2+235);
+  rect(50,305,200,50);
+  text(`Hero:${heros[currentHero]}`,50,295);
+  textFont("Helvetica");
+  text(`Switch Hero`,60,340);
+  rect(win.x-250,305,200,50);
+  text(`Switch Mode`,win.x-240,340);
+  text(`Mode:${modes[mode]}`,win.x-245,300);
+  textSize(25);
+  text(`WASD/Arrows keys to move:P to toggle outline:J and K or Z and X to use abilites:Good luck`,win.x/2-500,win.y-20);
+
+//  fill(255);
+  textSize(20)
+  strokeWeight(1.5);
+
+  textSize(20);
+  stroke(0);
+  strokeWeight(1.5);
+  if(heros[currentHero] !== 0){
+    if(heros[currentHero] == "Magmax"){
+    text(`Magmax's Abilites\nJ or Z to flow(makes you go 2x faster)\nK or X to harden(makes you invincible but you can't move and you \ncan harden up to 4 seconds with a cooldown of 3 seconds)`,win.x/2-300,win.y/2+100);
+}else if(heros[currentHero] == "Jotunn"){
+  text(`Jotunn's Abilites\nPassive Ability: If enemies are near you, they get 60% slower(Some enemies\naren't affected)\nShard Ability: K or Z to shatter enemies away(Some enemies aren't affected)`,win.x/2-300,win.y/2+100);
+}else if(heros[currentHero] == "Kopo"){
+  text(`Kopo's Abilites\nSmol: J or Z to make itself smaller\nDome Hole!(DH) : K or X to place down an aura(which traps enemies for a certain\namount of time and cannot kill you in the aura) when your smol`,win.x/2-300,win.y/2+100);
+}
+  }
+  if(mouseX>50 && mouseX < 250 && mouseY>305 && mouseY<355 && !switchHeroLock){
+    if(mouseP){
+    switchHeroLock = true;
+    if(heros.length-1 == currentHero){
+     currentHero = 0; 
+    }else{
+    currentHero++;
+    }
+    }
+  }else if(!mouseP){
+   switchHeroLock = false; 
+  }
+  if(mouseX>win.x/2-200 && mouseX < win.x/2+200 && mouseY>win.y/2 +200&& mouseY<win.y/2+250 && mouseP){
+   mainMenu = false; 
+    game.player.heroProperties(heros[currentHero]);
+    game.loadLevel();
+  }
+  if(mouseX<win.x-50 && mouseX>win.x-250 && mouseY>305 && mouseY<355&& !switchModeLock&& mouseP){
+    switchModeLock = true;
+   if(mode == modes.length-1){
+    mode = 0; 
+   }else{
+    mode++; 
+   }
+  }
+  if(!mouseP){
+   switchModeLock = false; 
+  } 
+  */
+    if(!this.spawnedButtons){
+     this.spawnedButtons = true;
+      this.buttons = [new MenuButton(win.x/2-200,win.y/2+win.y/4,0,-6,0,win.y/2-win.y/18,"Magmax"),new MenuButton(win.x/2-50,win.y/2+win.y/4,0,-7,0,win.y/2-win.y/18,"Jotunn"),new MenuButton(win.x/2+100,win.y/2+win.y/4,0,-8,0,win.y/2-win.y/18,"Kopo")]
+    }
+    background(205);
+    fill(255);
+    stroke(0);
+    strokeWeight(5);
+    rect(1.5,win.y/2-win.y/4,win.x-5,win.y/2);
+    textFont("Trebuchet MS");
+    textSize(45);
+    noStroke();
+    fill(25, 213, 255);
+ //   text("Dodge It",win.x/2-140,win.y/6);
+    image(imgLogo,win.x/2-290,-100,550,450);
+    for(let button of this.buttons){
+     button.simulate(); 
+      if(mouseP&&button.sa>1){
+        if(button.type=="Magmax"){
+         currentHero=0; 
+        }else if(button.type=="Jotunn"){
+         currentHero=1; 
+        }else if(button.type=="Kopo"){
+         currentHero=2;
+        }
+         mainMenu = false; 
+    game.player.heroProperties(heros[currentHero]);
+    game.loadLevel();
+      }
+    }
+  }
   draw(game,fov,playerCamera,win,outline){
     background(150);
     if(game.zone === 0 ){
