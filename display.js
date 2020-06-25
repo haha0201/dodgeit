@@ -240,6 +240,7 @@ textFont("Maven Pro");
      
       if(enemy.shatter){
        fill(120,120,120, 45) 
+        noStroke();
       }
        if(outline){
                   stroke(0);
