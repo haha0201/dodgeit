@@ -160,9 +160,9 @@ function update(dt){
   playerCamera = game.player.pos;
   }
 }
-function render(){  
+function render(dt){  
   if(mainMenu&&time===0){
-   display.menu();
+   display.menu(dt);
   }else if(!finishedSpeedrun){
   display.draw(game,fov,playerCamera,win,outline,herocolors[currentHero]);
   if(game.player.hero =="Jotunn"){
@@ -242,6 +242,15 @@ function render(){
         fill(0);
        text(`Skipped Levels`,win.x/2-100,win.y/2) 
       }
+    }
+  
+       if(display.fades!=[]){
+     for(let i=display.fades.length-1;i>=0;i--){
+      display.fades[i].simulate();
+       if(display.fades[i].pos.x<-win.x*3){
+        display.fades.splice(i,1); 
+       }
+     }
     }
 }
 setInterval(()=>{
