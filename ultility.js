@@ -15,9 +15,6 @@ function randomNumber(min, max) {
 }  
 var world = new Vec(3150,450);
 var globalSwitch= 0;
-setInterval(()=>{
- globalSwitch++
-},4000)
 class Safe{
  constructor(x,y,w,h){
   this.x = x;
