@@ -93,7 +93,7 @@ textFont("Maven Pro");
   strokeWeight(2)
  rect(win.x/2-200,win.y/2+200,400,50);
   textSize(90);
-  text("Dodge.io",win.x/2-180,150);
+  text("Dodge It",win.x/2-180,150);
   textSize(20);
   strokeWeight(1);
   text("I'm not responsible for any damage that happens to your computer. This is a rage game.",win.x/2-320,200);
