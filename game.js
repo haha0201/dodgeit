@@ -199,7 +199,7 @@ class Game {
       }
     } 
     else if (this.zone === 1) {
-      world = new Vec(4000, 350);
+       world = new Vec(4000, 350);
       if (this.level === 0) {
         this.resetEnemies();
         this.spawnEnemy(20, 4, 40, 'icicle');
@@ -237,6 +237,287 @@ class Game {
         world = new Vec(4300, 950);
         this.spawnEnemy(55, 7, 30, 'icicle');
         this.spawnEnemy(55, 3.5, 40, 'dasher');
+      } else if (this.level === 8) {
+        this.resetEnemies();
+        world = new Vec(4000, 200);
+        this.spawnEnemy(25, 4, 30, 'icicle');
+        this.spawnEnemy(25, 2, 40, 'dasher');
+      } else if (this.level === 9) {
+        this.resetEnemies();
+        world = new Vec(5000, 2000);
+        this.spawnEnemy(300, 5, 30, 'normal');
+      } else if (this.level === 10) {
+        this.resetEnemies();
+        world = new Vec(5000, 2000);
+        this.spawnEnemy(150, 5, 30, 'normal');
+        this.spawnEnemy(150, 4, 30, 'dasher');
+        this.spawnEnemy(10, 5, 200, 'normal');
+        this.spawnEnemy(10, 4, 200, 'dasher');
+        this.spawnEnemy(50, 10, 200, 'border');
+      } else if (this.level === 11) {
+        this.resetEnemies();
+        world = new Vec(4000, 1500);
+        this.spawnEnemy(200, 1.5, 30, 'homing');
+        this.spawnEnemy(50, 10, 200, 'border');
+
+      } else if (this.level === 12) {
+        this.resetEnemies();
+        world = new Vec(3000, 1000);
+        this.spawnEnemy(20, 1.5, 30, 'homing');
+        this.spawnEnemy(40, 7, 30, 'normal');
+        this.spawnEnemy(50, 10, 200, 'border');
+
+      } else if (this.level === 13) {
+        this.resetEnemies();
+        this.spawnEnemy(25, 1.5, 30, 'homing');
+        this.spawnEnemy(25, 1.5, 30, 'normal');
+        this.spawnEnemy(25, 1.5, 30, 'dasher');
+
+      } else if (this.level === 14) {
+        this.resetEnemies();
+        world = new Vec(5000, 90);
+        this.spawnEnemy(30, 0.5, 15, 'homing');
+
+      } else if (this.level === 15) {
+        this.resetEnemies();
+        world = new Vec(5000, 1000);
+        this.spawnEnemy(500, 0.5, 15, 'homing');
+        this.spawnEnemy(10, 4, 100, 'normal');
+        this.spawnEnemy(60, 30, 60, 'border');
+
+      } else if (this.level === 16) {
+        this.resetEnemies();
+        world = new Vec(5000, 1000);
+        this.spawnEnemy(220, 3, 30, 'slowdown');
+        this.spawnEnemy(60, 30, 60, 'border');
+
+      } else if (this.level === 17) {
+        this.resetEnemies();
+        world = new Vec(2500, 500);
+        this.spawnEnemy(200, 0.5, 30, 'slowdown');
+        this.spawnEnemy(60, 30, 60, 'border');
+ 
+      } else if (this.level === 18) {
+        this.resetEnemies();
+        world = new Vec(3120, 450);
+        
+        this.spawnEnemy(44, 6, 20, 'normal');
+        
+        this.spawnEnemy(4, 8, 60, 'border');
+
+      }else if (this.level === 19) {
+        this.resetEnemies();
+        world = new Vec(3120, 450);
+        
+        this.spawnEnemy(44, 4, 40, 'slowdown');
+        
+        this.spawnEnemy(4, 8, 60, 'border');
+
+      }else if (this.level === 20) {
+        this.resetEnemies();
+        world = new Vec(3120, 450);
+        
+        this.spawnEnemy(29, 5, 20, 'normal');
+        this.spawnEnemy(29, 3, 30, 'dasher');
+        
+        this.spawnEnemy(4, 8, 60, 'border');
+
+      }else if (this.level === 21) {
+        this.resetEnemies();
+        world = new Vec(3120, 450);
+        
+        this.spawnEnemy(29, 5, 20, 'close');
+        this.spawnEnemy(12, 8, 60, 'border');
+
+      }else if (this.level === 22) {
+        this.resetEnemies();
+        world = new Vec(3120, 450);
+        
+        this.spawnEnemy(25, 4, 60, 'close');
+        this.spawnEnemy(12, 8, 60, 'border');
+
+      }else if (this.level === 23) {
+        this.resetEnemies();
+        world = new Vec(3120, 450);
+        
+        this.spawnEnemy(90, 4, 20, 'normal');
+        this.spawnEnemy(12, 8, 60, 'border');
+
+      } else if (this.level === 24) {
+        this.resetEnemies();
+        world = new Vec(3120, 600);
+        
+        this.resetEnemies();
+        this.spawnEnemy(35, 6.5, 10, 'close');
+        this.spawnEnemy(10, 1.5, 80, 'border');
+
+      } else if (this.level === 25) {
+        this.resetEnemies();
+        world = new Vec(5000, 1000);
+        
+        this.resetEnemies();
+        this.spawnEnemy(30, 3, 40, 'sniper', 250);
+        this.spawnEnemy(10, 35, 120, 'border');
+
+      } else if (this.level === 26) {
+        this.resetEnemies();
+        world = new Vec(5000, 1000);
+        
+        this.resetEnemies();
+        this.spawnEnemy(10, 3, 40, 'sniper', 250);
+        this.spawnEnemy(100, 5, 30, 'normal');
+        this.spawnEnemy(10, 35, 120, 'border');
+
+      } else if (this.level === 27) {
+        this.resetEnemies();
+        world = new Vec(6000, 1200);
+        
+        this.resetEnemies();
+        this.spawnEnemy(10, 3, 200, 'sniper', 250);
+        this.spawnEnemy(100, 5, 30, 'normal');
+        this.spawnEnemy(10, 35, 120, 'border');
+
+      } else if (this.level === 28) {
+        this.resetEnemies();
+        world = new Vec(6000, 1200);
+        
+        this.resetEnemies();
+        this.spawnEnemy(5, 3, 400, 'sniper', 250);
+        this.spawnEnemy(100, 3, 60, 'normal');
+        this.spawnEnemy(10, 35, 120, 'border');
+
+      } else if (this.level === 29) {
+        this.resetEnemies();
+        world = new Vec(10000, 3000);
+        
+        this.resetEnemies();
+        this.spawnEnemy(2, 3, 2500, 'sniper', 300);
+        this.spawnEnemy(250, 1, 200, 'slowdown');
+
+      } else if (this.level === 30) {
+        this.resetEnemies();
+        world = new Vec(5000, 1000);
+        
+        this.resetEnemies();
+        this.spawnEnemy(30, 2, 25, 'sniper', 300);
+        this.spawnEnemy(250, 1, 30, 'slowdown');
+        this.spawnEnemy(100, 40, 140, 'border');
+
+      } else if (this.level === 31) {
+        this.resetEnemies();
+        world = new Vec(3120, 450);
+        
+        this.resetEnemies();
+        this.spawnEnemy(50, 3, 30, 'icicle');
+        this.spawnTele(360, 0, 200, 200);
+        this.spawnTele(1073, 250, 200, 200);
+        this.spawnTele(1787, 0, 200, 200);
+        this.spawnTele(2500, 250, 200, 200);
+
+      } else if (this.level === 32) {
+        this.resetEnemies();
+        world = new Vec(3120, 450);
+        
+        this.resetEnemies();
+        this.spawnEnemy(70, 6, 30, 'icicle');
+        this.spawnTele(360, 0, 300, 300);
+        this.spawnTele(1040, 150, 300, 300);
+        this.spawnTele(1720, 0, 300, 300);
+        this.spawnTele(2400, 150, 300, 300);
+
+      } else if (this.level === 33) {
+        this.resetEnemies();
+        world = new Vec(3120, 450);
+        
+        this.resetEnemies();
+        this.spawnEnemy(44, 6, 35, 'normal');
+        this.spawnTele(360, 0, 300, 300);
+        this.spawnTele(1040, 150, 300, 300);
+        this.spawnTele(1720, 0, 300, 300);
+        this.spawnTele(2400, 150, 300, 300);
+
+      } else if (this.level === 34) {
+        this.resetEnemies();
+        world = new Vec(3120, 450);
+        
+        this.resetEnemies();
+        this.spawnEnemy(65, 3, 35, 'dasher');
+        this.spawnTele(360, 0, 300, 300);
+        this.spawnTele(1040, 150, 300, 300);
+        this.spawnTele(1720, 0, 300, 300);
+        this.spawnTele(2400, 150, 300, 300);
+
+      } else if (this.level === 35) {
+        this.resetEnemies();
+        world = new Vec(3120, 650);
+        
+        this.resetEnemies();
+        this.spawnEnemy(45, 1, 35, 'dasher');
+        this.spawnEnemy(45, 5, 35, 'normal');
+        this.spawnTele(360, 0, 300, 500);
+        this.spawnTele(1040, 150, 300, 500);
+        this.spawnTele(1720, 0, 300, 500);
+        this.spawnTele(2400, 150, 300, 500);
+
+      } else if (this.level === 36) {
+        this.resetEnemies();
+        world = new Vec(3120, 650);
+        
+        this.resetEnemies();
+        this.spawnEnemy(80, 6, 25, 'normal');
+        this.spawnTele(360, 0, 300, 500);
+        this.spawnTele(1040, 150, 300, 500);
+        this.spawnTele(1720, 0, 300, 500);
+        this.spawnTele(2400, 150, 300, 500);
+
+      } else if (this.level === 37) {
+        this.resetEnemies();
+        world = new Vec(3120, 650);
+        
+        this.resetEnemies();
+        this.spawnEnemy(100, 4, 45, 'normal');
+        this.spawnTele(360, 0, 300, 500);
+        this.spawnTele(1040, 150, 300, 500);
+        this.spawnTele(1720, 0, 300, 500);
+        this.spawnTele(2400, 150, 300, 500);
+
+      } else if (this.level === 38) {
+        this.resetEnemies();
+        world = new Vec(3120, 650);
+        
+        this.resetEnemies();
+        this.spawnEnemy(55, 3.5, 45, 'close');
+        this.spawnTele(360, 0, 300, 500);
+        this.spawnTele(1040, 150, 300, 500);
+        this.spawnTele(1720, 0, 300, 500);
+        this.spawnTele(2400, 150, 300, 500);
+
+      } else if (this.level === 39) {
+        this.resetEnemies();
+        world = new Vec(3120, 650);
+        
+        this.resetEnemies();
+        this.spawnEnemy(55, 5, 30, 'normal');
+        this.spawnEnemy(30, 0.1, 20, 'close');
+        this.spawnTele(360, 0, 300, 500);
+        this.spawnTele(1040, 150, 300, 500);
+        this.spawnTele(1720, 0, 300, 500);
+        this.spawnTele(2400, 150, 300, 500);
+
+      } else if (this.level === 40) {
+        this.resetEnemies();
+        world = new Vec(3120, 650);
+        
+        this.resetEnemies();
+        this.spawnEnemy(50, 8, 30, 'normal');
+        this.spawnEnemy(15, 1, 20, 'dasher');
+        this.spawnEnemy(15, 1, 20, 'close');
+        this.spawnEnemy(15, 1, 20, 'homing');
+        this.spawnTele(360, 0, 300, 500);
+        this.spawnTele(1040, 150, 300, 500);
+        this.spawnTele(1720, 0, 300, 500);
+        this.spawnTele(2400, 150, 300, 500);
+
       }
     } else if (this.zone === 2) {
       if (this.level === 0) {
