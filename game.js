@@ -12,17 +12,18 @@ class Game {
     this.bullets = [];
     this.resetEnemies = function() {
       this.enemies = [];
-      this.bullets = [];
+      this.bullets = []; 
+      this.world.areaTeleporters=[];
     }
     this.level = 0;
   }
   loadLevel() {
-
     world = new Vec(3150, 450);
     this.resetEnemies();
     if (this.zone === 0) {
       if (this.level === 0) {
         this.resetEnemies();
+        
         this.spawnEnemy(5, 4, 100, 'border');
         this.spawnEnemy(5, 3, 75, 'normal');
       } else if (this.level === 1) {
@@ -196,7 +197,8 @@ class Game {
         this.spawnEnemy(2, 2, 120, 'dasher');
         this.spawnEnemy(1, 2, 150, 'homing');
       }
-    } else if (this.zone === 1) {
+    } 
+    else if (this.zone === 1) {
       world = new Vec(4000, 350);
       if (this.level === 0) {
         this.resetEnemies();
@@ -576,8 +578,9 @@ this.spawnEnemy(55, 3, 60, 'border')
      world = new Vec(5000,1000);
       if(this.level === 0){
        this.resetEnemies();
-       this.spawnEnemy(20,5,30,'weird');
-        this.spawnEnemy(20,5,30,'homing');
+       this.spawnEnemy(150,4,40,'switch');
+        this.spawnEnemy(50,5,70,'switch');
+        this.spawnEnemy(15,4,200,'switch');
       }else if(this.level === 1){
        this.resetEnemies();
         this.spawnEnemy(120,5,30,'slowdown');
@@ -599,8 +602,9 @@ this.spawnEnemy(55, 3, 60, 'border')
     }
     if (this.level === 0&&this.zone!=this.hellZone) {
       this.world.areaTeleporters = [new AreaTeleporter(0, 0, 360, world.y/10, 'top'), new AreaTeleporter(0, world.y - world.y/10, 360, world.y/10, 'bottom')]
-    } else {
-      this.world.areaTeleporters = [];
+    } 
+    if(this.level === 0 && this.zone === this.hellZone){
+     this.world.areaTeleporters=[new AreaTeleporter(310,100,50,world.y-100,'side'),new AreaTeleporter(1010,100,400,50,'side'),new AreaTeleporter(1010,300,400,50,'side'),new AreaTeleporter(1010,500,400,50,'side'),new AreaTeleporter(1010,700,400,50,'side')] 
     }
     if(this.level === 0 && this.zone === 0){
      this.world.areaTeleporters=[new AreaTeleporter(0, 0, 360, world.y/10, 'top'), new AreaTeleporter(0, world.y - world.y/10, 360, world.y/10, 'bottom'),new AreaTeleporter(0,0,50,world.y,'side')]; 
@@ -633,11 +637,13 @@ Game.prototype.player = {
       this.hardenMaxTime = 240;
       this.hardenCooldown = 180;
       this.cooldown = 0
-    } else if (hero == 'Jotunn') {
+    
+    }else if (hero == 'Jotunn') {
       this.shard = true;
       this.cooldown = 0;
       this.shardCooldown = 420;
-    } else if (hero == "Kopo") {
+    
+    }else if (hero == "Kopo") {
       this.smalllock = false;
       this.smallSize = 10;
       this.isSmall = false;
@@ -663,13 +669,14 @@ Game.prototype.player = {
       this.spd = this.baseSpd
     }
     /* magmax abilities */
+    if(this.hero=="Magmax"){
     if (!this.freezed) {
       if (controller.firstAbility) {
-        if (this.hero == 'Magmax' && !this.harden) {
+        if ( !this.harden) {
           this.flow = true;
           this.spd = this.baseSpd * 2
         }
-      } else if (this.hero == "Magmax") {
+      } else{
         this.flow = false;
       }
     }
@@ -688,14 +695,13 @@ Game.prototype.player = {
       }
     }
     if (controller.secondAbility) {
-      if (this.hero == "Magmax" && !this.flow && this.cooldown === 0) {
+      if (!this.flow && this.cooldown === 0) {
         this.harden = true;
       }
 
-    } else if (this.hero == "Magmax") {
+    } else {
       this.harden = false;
     }
-    if (this.hero == "Magmax") {
       if (this.harden) {
         this.spd = 0;
       }
@@ -828,6 +834,7 @@ Game.prototype.player = {
     if (this.pos.y - this.radius < 0) {
       this.pos.y = this.radius
     }
+    /* teleporter collision things*/
     for (let teleporter of game.world.teleporters) {
       let rectHalfSizeX = teleporter.w / 2
       let rectHalfSizeY = teleporter.h / 2
@@ -897,6 +904,7 @@ Game.prototype.player = {
           this.pos.y = 60;
         }
            if(teleporter.type=='side'){
+             if(game.zone ===0&&game.level === 0){
               world = new Vec(5000,1000);
            game.zone = game.hellZone;
             game.level =0;
@@ -906,14 +914,37 @@ Game.prototype.player = {
           }
             this.pos = new Vec(100,world.y/2);
             this.vel = new Vec(0,0);
+             }else if(game.zone ===game.hellZone){
+              game.loadLevel();
+                if (this.hero == "Kopo") {
+            this.history = [];
+          }
+            this.pos = new Vec(100,world.y/2);
+            this.vel = new Vec(0,0);
+             }
+             if(game.zone !== game.hellZone){
+                 game.loadLevel();
+                 if (this.hero == "Kopo") {
+            this.history = [];
+          }
+            this.pos = new Vec(100,world.y/2);
+            this.vel = new Vec(0,0);
+             }
           }
       }
     }
   },
   collideEnemy(controller, game) {
     this.slowdown = false;
-    if (this.hero == "Jotunn" && controller.secondAbility && this.shard) {
-      for (let enemy of game.enemies) {
+    this.megaslow = false;
+    for(let enemy of game.enemies){
+        if (dist(enemy.pos.x, enemy.pos.y, this.pos.x, this.pos.y) < this.radius + 200 && enemy.type == 'liquid') {  
+          enemy.speedState = 'fast';
+        } else if (enemy.type == 'liquid') {
+          enemy.speedState = 'normal';
+        }
+       if (this.hero == "Jotunn" ) {
+         if(controller.secondAbility && this.shard){
         if (dist(this.pos.x, this.pos.y, enemy.pos.x, enemy.pos.y) < enemy.size / 2 + 150) {
           if (enemy.type != "border" && enemy.type != 'immune') {
             if (enemy.type != 'switch') {
@@ -923,22 +954,26 @@ Game.prototype.player = {
             }else if(enemy.type=='switch'){
              this.shard = false;
               enemy.canDie=false;
+                enemy.shatter = true;
+              enemy.shattered(this.shardCooldown);
             }
           }
         }
-      }
           this.shard = false;
-        this.cooldown = this.shardCooldown;
-    }
-      
-      for (let enemy of game.enemies) {
-        if (dist(enemy.pos.x, enemy.pos.y, this.pos.x, this.pos.y) < this.radius + 200 && enemy.type == 'liquid') {  
-          enemy.speedState = 'fast';
-        } else if (enemy.type == 'liquid') {
-          enemy.speedState = 'normal';
-        }
-        if (this.hero == "Kopo" && enemy.type != "border" && enemy.type != 'immune') {
-          if (this.auraOn) {
+      this.cooldown = this.shardCooldown;
+         }
+          if (dist(this.pos.x, this.pos.y, enemy.pos.x, enemy.pos.y) < enemy.size / 2 + 150) {
+            if (!enemy.shatter&&enemy.type!="border"&&enemy.type!="switch") {
+              enemy.slowdown = true;
+            }
+          } else if (enemy.shatter) {
+            enemy.slowdown = false;
+          } else {
+            enemy.slowdown = false;
+          }
+      }
+      if (this.hero == "Kopo") {
+          if (this.auraOn && enemy.type != "border" && enemy.type != 'immune') {
             if (dist(enemy.pos.x, enemy.pos.y, this.auraLocation.x, this.auraLocation.y) < enemy.size / 2 + this.auraSize / 2 && this.pos.x + this.radius > 360 && this.pos.x - this.radius < world.x - 420 && this.dhAt === game.zone) {
               enemy.pos.x = this.auraLocation.x + randomNumber(this.auraSize / 4, this.auraSize / 2) - randomNumber(this.auraSize / 4, this.auraSize / 2);
               enemy.pos.y = this.auraLocation.y + randomNumber(this.auraSize / 4, this.auraSize / 2) - randomNumber(this.auraSize / 4, this.auraSize / 2);
@@ -946,13 +981,11 @@ Game.prototype.player = {
               enemy.yv = 0;
             }
           }
-        }
-        if (this.hero == "Kopo") {
           if (this.disabledAuraTimer === 0 && enemy.xv === 0 && enemy.yv === 0 && !this.auraOn) {
             enemy.randomizeVel();
           }
         }
-        if (dist(this.pos.x, this.pos.y, enemy.pos.x, enemy.pos.y) < this.radius + enemy.size / 2) {
+      if (dist(this.pos.x, this.pos.y, enemy.pos.x, enemy.pos.y) < this.radius + enemy.size / 2) {
           if (!this.harden || this.harden === undefined) {
             if (!enemy.shatter) {
               if ((dist(this.auraLocation.x, this.auraLocation.y, enemy.pos.x, enemy.pos.y) > enemy.size / 2 + this.auraSize / 2)) {
@@ -974,18 +1007,7 @@ Game.prototype.player = {
             }
           }
         }
-        if (this.hero == "Jotunn") {
-          if (dist(this.pos.x, this.pos.y, enemy.pos.x, enemy.pos.y) < enemy.size / 2 + 150) {
-            if (!enemy.shatter&&enemy.type!="border"&&enemy.type!="switch") {
-              enemy.slowdown = true;
-            }
-          } else if (enemy.shatter) {
-            enemy.slowdown = false;
-          } else {
-            enemy.slowdown = false;
-          }
-        }
-        if (enemy.type == 'slowdown') {
+      if (enemy.type == 'slowdown') {
           if (dist(this.pos.x, this.pos.y, enemy.pos.x, enemy.pos.y) < this.radius + 200 && this.pos.x - this.radius > 360 && this.pos.x + this.radius < world.x - 420 && !enemy.shatter) {
             this.slowdown = true;
           }
@@ -995,7 +1017,7 @@ Game.prototype.player = {
             this.megaslow = true;
           }
         }
-      }
+  }
       for (let bullet of game.bullets) {
         if (dist(this.pos.x, this.pos.y, bullet.pos.x, bullet.pos.y) < this.radius + bullet.size / 2) {
           if (bullet.type == 'freeze' && !this.freezed) {
@@ -1022,7 +1044,9 @@ Game.prototype.player = {
       }
     }
   }
-
+Game.prototype.spawnTele = function(x,y,w,h){
+   this.world.areaTeleporters.push(new AreaTeleporter(x,y,w,h,'side'));
+}
 Game.prototype.spawnEnemy = function(count, speed, size, type, cooldown) {
   const t = type || "normal";
   for (let i = 0; i < count; i++) {
