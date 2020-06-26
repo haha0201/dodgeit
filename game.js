@@ -629,11 +629,11 @@ class Game {
       } 
       if (this.level === 7) {
         this.spawnEnemy(50, 4, 20, 'normal');
-        this.spawnEnemy(10, 2, 20, 'sniper');
+        this.spawnEnemy(10, 2, 20, 'sniper', 200);
       } 
       if (this.level === 8) {
         this.spawnEnemy(40, 4, 20, 'normal');
-        this.spawnEnemy(20, 2, 20, 'sniper');
+        this.spawnEnemy(20, 2, 20, 'sniper', 200);
       } 
       if (this.level === 9) {
         this.spawnEnemy(25, 7, 20, 'normal');
@@ -652,15 +652,15 @@ class Game {
         
       } 
       if (this.level === 13) {
-        this.spawnEnemy(30, 11, 36, 'immune');
+        this.spawnEnemy(30, 9, 36, 'immune');
         this.spawnEnemy(20, 2, 36, 'immune');
       } 
       if (this.level === 14) {
-        this.spawnEnemy(40, 13, 36, 'immune');
+        this.spawnEnemy(40, 10, 36, 'immune');
       } 
       if (this.level === 15) {
-        this.spawnEnemy(125, 3, 20, 'immune');
-        this.spawnEnemy(25, 3, 20, 'slowdown');
+        this.spawnEnemy(125, 3, 18, 'immune');
+        this.spawnEnemy(25, 3, 18, 'slowdown');
       } 
       if (this.level === 16) {
         this.spawnEnemy(175, 3, 20, 'immune');
