@@ -10,7 +10,7 @@
      let delta = time-this.lastTime
       this.lastTime = time;
       this.acc+=delta;
-      if(this.acc>=this.step){
+      while(this.acc>=this.step){
       update(this.step);
         this.acc-=this.step;
         this.updated = true;
