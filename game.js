@@ -1,6 +1,6 @@
 class Game {
   constructor() {
-    this.areas = ["Crystal Core", "Crystal Core Hard", "Disastrous Wonderland", "Nightmare", "Nightmare Hard", "Big Bad Balls","Crowded Cave"]
+    this.areas = ["Crystal Core", "Crystal Core Hard", "Disastrous Wonderland", "Nightmare", "Ominous Occult", "Big Bad Balls","Crowded Cave"]
     this.zone = 0;
     this.world = {
       teleporters: [new Teleporter(world.x - 60, 0, 60, world.y, 'right')],
@@ -607,8 +607,11 @@ class Game {
         this.spawnEnemy(50, 2, 20, 'normal');
       } 
       if (this.level === 1) {
-        this.spawnEnemy(38, 2, 20, 'normal');
-        this.spawnEnemy(37, 2, 20, 'slowdown');
+        this.spawnEnemy(75, 2, 20, 'normal');
+      } 
+      if (this.level === 2) {
+        this.spawnEnemy(40, 2, 20, 'normal');
+        this.spawnEnemy(40, 2, 20, 'slowdown');
       } 
       if (this.level === 3) {
         this.spawnEnemy(50, 4, 20, 'normal');
