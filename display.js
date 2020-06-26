@@ -112,7 +112,7 @@ textFont("Maven Pro");
     if(this.fades!=[]){
      for(let fade of this.fades){
       fade.simulate(dt); 
-       if(fade.pos.x<-200&&!fade.counted){
+       if(fade.pos.x<50&&!fade.counted){
          fade.counted = true;
         this.fadesOnScreen++; 
        }
