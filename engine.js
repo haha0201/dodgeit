@@ -10,13 +10,13 @@
      let delta = time-this.lastTime
       this.lastTime = time;
       this.acc+=delta;
+          if(this.acc>this.step*3){
+       this.acc=this.step; 
+      }
       while(this.acc>=this.step){
       update(this.step);
         this.acc-=this.step;
         this.updated = true;
-      }
-      if(this.acc>this.step*3){
-       this.acc=this.step; 
       }
       if(this.updated){
         this.updated = false;
