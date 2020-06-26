@@ -194,13 +194,13 @@ textFont("Maven Pro");
        fill(50,50,200); 
       }else if(enemy.type =='close'){
         stroke(0, 0, 0);
-        if(!enemy.shatter){
+        if(!enemy.shatter||!enemy.canDie){
         strokeWeight(1*fov);
        fill(48, 182, 166);
         }
       }else if(enemy.type == 'slowdown'){
        fill( 212, 53, 32);
-        if(!enemy.shatter){
+        if(!enemy.shatter||!enemy.canDie){
         stroke(0);
         strokeWeight(1*fov);
         }
@@ -253,7 +253,7 @@ textFont("Maven Pro");
          strokeWeight(2*fov) 
       }
     circle(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.size*fov);
-      if(enemy.slowdown && enemy.type !='border'&&enemy.type!='immune'&&!enemy.shatter){
+      if(enemy.slowdown && enemy.type !='border'&&enemy.type!='immune'&&(!enemy.shatter)&&(enemy.canDie === undefined)||(enemy.type=='switch'&&enemy.canDie)){
        fill(99, 145, 148,120); 
  circle(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.size*fov);
       }
