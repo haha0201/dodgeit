@@ -601,18 +601,72 @@ class Game {
         this.spawnEnemy(55, 3, 40, 'slowdown');
       }
     } else if (this.zone === 4) {
-      world = new Vec(8150, 300);
+      world = new Vec(6240, 240);
+      this.resetEnemies();
       if (this.level === 0) {
-        this.resetEnemies();
-        this.spawnEnemy(150, 2, 20, 'normal');
-        this.spawnEnemy(30, 9, 60, 'border');
-      } else if (this.level === 1) {
-        this.resetEnemies();
-        this.spawnEnemy(50, 3, 70, 'slowdown');
-        this.spawnEnemy(50, 2, 50, 'dasher');
-        this.spawnEnemy(40, 2, 30, 'rotate');
-        this.spawnEnemy(30, 7, 70, 'border');
-      }
+        this.spawnEnemy(50, 2, 20, 'normal');
+      } 
+      if (this.level === 1) {
+        this.spawnEnemy(38, 2, 20, 'normal');
+        this.spawnEnemy(37, 2, 20, 'slowdown');
+      } 
+      if (this.level === 3) {
+        this.spawnEnemy(50, 4, 20, 'normal');
+      } 
+      if (this.level === 4) {
+        this.spawnEnemy(37, 4, 20, 'normal');
+        this.spawnEnemy(38, 4, 20, 'slowdown');
+      } 
+      if (this.level === 5) {
+        this.spawnEnemy(16, 4, 20, 'normal');
+        this.spawnEnemy(16, 4, 20, 'slowdown');
+        this.spawnEnemy(17, 4, 20, 'immune');
+      } 
+      if (this.level === 6) {
+        this.spawnEnemy(25, 4, 20, 'normal');
+        this.spawnEnemy(25, 4, 20, 'slowdown');
+        this.spawnEnemy(25, 4, 20, 'immune');
+      } 
+      if (this.level === 7) {
+        this.spawnEnemy(50, 4, 20, 'normal');
+        this.spawnEnemy(10, 2, 20, 'sniper');
+      } 
+      if (this.level === 8) {
+        this.spawnEnemy(40, 4, 20, 'normal');
+        this.spawnEnemy(20, 2, 20, 'sniper');
+      } 
+      if (this.level === 9) {
+        this.spawnEnemy(25, 7, 20, 'normal');
+      } 
+      if (this.level === 10) {
+        this.spawnEnemy(50, 7, 20, 'normal');
+      } 
+      if (this.level === 11) {
+        this.spawnEnemy(30, 7, 20, 'normal');
+        this.spawnEnemy(20, 7, 20, 'slowdown');
+      } 
+      if (this.level === 12) {
+        this.spawnEnemy(15, 7, 20, 'normal');
+        this.spawnEnemy(15, 7, 20, 'slowdown');
+        this.spawnEnemy(20, 7, 20, 'immune');
+        
+      } 
+      if (this.level === 13) {
+        this.spawnEnemy(30, 11, 36, 'immune');
+        this.spawnEnemy(20, 2, 36, 'immune');
+      } 
+      if (this.level === 14) {
+        this.spawnEnemy(40, 13, 36, 'immune');
+      } 
+      if (this.level === 15) {
+        this.spawnEnemy(125, 3, 20, 'immune');
+        this.spawnEnemy(25, 3, 20, 'slowdown');
+      } 
+      if (this.level === 16) {
+        this.spawnEnemy(175, 3, 20, 'immune');
+        this.spawnEnemy(25, 3, 20, 'slowdown');
+      } 
+      
     } else if (this.zone === 5) {
       world = new Vec(4000, 420);
       if (this.level === 0) {
