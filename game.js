@@ -569,7 +569,10 @@ class Game {
         this.spawnEnemy(3, 2, 35, 'exploder', 400);
         this.spawnEnemy(3, 2, 35, 'sniper', 400);
         this.spawnEnemy(30, 2, 65, 'border');
-      }
+      } else if (this.level === 11) {
+        this.resetEnemies();
+        this.spawnEnemy(1, 15, 35, 'normal');
+      } 
     } else if (this.zone === 3) {
       world = new Vec(6150, 450);
       if (this.level === 0) {
