@@ -1165,10 +1165,10 @@ Game.prototype.player = {
       this.harden = false;
     }
   
-    this.pos.x += this.vel.x*playSpeed/5*(dt)
-    this.pos.y += this.vel.y*playSpeed/5*(dt)
-  this.vel.x *=Math.pow(this.friction/(playSpeed*1000),dt)
-    this.vel.y *=Math.pow(this.friction/(playSpeed*1000),dt);
+    this.pos.x += this.vel.x*playSpeed/3*(dt)
+    this.pos.y += this.vel.y*playSpeed/3*(dt)
+    this.vel.x *=Math.pow(this.friction/(playSpeed*600),dt)
+    this.vel.y *=Math.pow(this.friction/(playSpeed*600),dt);
     this.megaslow = false;
     this.slowdown = false;
     /* bounding player */
