@@ -45,21 +45,21 @@ class Enemy{
   }
   update(game,dt){
     if(this.slowdown && !this.shatter){
-      this.pos.x += this.xv*0.6*(dt/16);
-      this.pos.y += this.yv*0.6*(dt/16);
+      this.pos.x += this.xv*0.6*(dt)*playSpeed;
+      this.pos.y += this.yv*0.6*(dt)*playSpeed;
     }
     if(this.shatter){
-     this.pos.x += this.xv*0.8*(dt/16);
-      this.pos.y+=this.yv*0.8*(dt/16);
-      this.cooldownTillDone--;
+     this.pos.x += this.xv*0.8*(dt)*playSpeed;
+      this.pos.y+=this.yv*0.8*(dt)*playSpeed;
+      this.cooldownTillDone-=60*dt;
     }
-    if(this.cooldownTillDone ===180){
+    if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
     if(!this.shatter && !this.slowdown){
-     this.pos.x +=this.xv*(dt/16)
-      this.pos.y+=this.yv*(dt/16)
+     this.pos.x +=this.xv*(dt)*playSpeed
+      this.pos.y+=this.yv*(dt)*playSpeed
     }
     this.collideWorld();
   this.baseSpd.x = this.xv;
@@ -87,35 +87,35 @@ class LiquidEnemy extends Enemy{
         this.yv*=1;
       }
     if(this.speedState == 'fast'){
-     this.pos.x+=this.xv*1.4*(dt/16);
-      this.pos.y+=this.yv*1.4*(dt/16)
+     this.pos.x+=this.xv*1.4*(dt)*playSpeed
+      this.pos.y+=this.yv*1.4*(dt)*playSpeed
     }
     if(this.slowdown && !this.shatter){
       if(this.speedState =='fast'){
-       this.pos.x+=this.xv*0.6*1.4*(dt/16);
-        this.pos.y+=this.yv*0.6*1.4*(dt/16);
+       this.pos.x+=this.xv*0.6*1.4*(dt)*playSpeed
+        this.pos.y+=this.yv*0.6*1.4*(dt)*playSpeed
       }else{
-      this.pos.x += this.xv*0.6*(dt/16)
-      this.pos.y += this.yv*0.6*(dt/16)
+      this.pos.x += this.xv*0.6*(dt)*playSpeed
+      this.pos.y += this.yv*0.6*(dt)*playSpeed
       }
     }
     if(this.shatter){
       if(this.speedState=='fast'){
-       this.pos.x+=this.xv*0.8*1.4*(dt/16);
-        this.pos.y+=this.yv*0.8*1.4*(dt/16);
+       this.pos.x+=this.xv*0.8*1.4*(dt)*playSpeed
+        this.pos.y+=this.yv*0.8*1.4*(dt)*playSpeed
       }else{
-     this.pos.x += this.xv*0.8*(dt/16);
-      this.pos.y+=this.yv*0.8*(dt/16);
+     this.pos.x += this.xv*0.8*(dt)*playSpeed
+      this.pos.y+=this.yv*0.8*(dt)*playSpeed
       }
-      this.cooldownTillDone--;
+      this.cooldownTillDone-=60*dt;
     }
-    if(this.cooldownTillDone ===180){
+    if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
     if(!this.shatter && !this.slowdown){
-     this.pos.x +=this.xv;
-      this.pos.y+=this.yv;
+     this.pos.x +=this.xv*(dt)*playSpeed;
+      this.pos.y+=this.yv*dt*playSpeed;
     }
     this.collideWorld();
   this.baseSpd.x = this.xv;
@@ -137,31 +137,30 @@ class IcicleEnemy extends Enemy{
    this.yv=0;
  }
   update(game,dt){
-    this.stop--;
+    this.stop-=60*dt;
       if(this.stop<=0&&this.on =='bottom'){
-        this.yv =-this.spd*(dt/16);
+        this.yv =-this.spd
         
       }
       if(this.stop<=0 &&this.on =='top'){
-       this.yv = this.spd*(dt/16);
-    
+       this.yv = this.spd
       }
       if(this.slowdown && !this.shatter){
-      this.pos.x += this.xv*0.6*(dt/16);
-      this.pos.y += this.yv*0.6*(dt/16);
+      this.pos.x += this.xv*0.6*(dt)*playSpeed;
+      this.pos.y += this.yv*0.6*(dt)*playSpeed
     }
     if(this.shatter){
-     this.pos.x += this.xv*0.8*(dt/16);
-      this.pos.y+=this.yv*0.8*(dt/16);
-      this.cooldownTillDone--;
+     this.pos.x += this.xv*0.8*(dt)*playSpeed
+      this.pos.y+=this.yv*0.8*(dt)*playSpeed
+      this.cooldownTillDone-=60*dt;
     }
-    if(this.cooldownTillDone ===180){
+    if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
      if(!this.shatter && !this.slowdown){
-     this.pos.x +=this.xv;
-      this.pos.y+=this.yv;
+     this.pos.x +=this.xv*playSpeed*dt
+      this.pos.y+=this.yv*playSpeed*dt;
     }
     if(this.pos.x-this.size/2<360){
      this.pos.x = 360+this.size/2 
@@ -202,27 +201,27 @@ class SizingEnemy extends Enemy{
      this.goingDown = false; 
     }
     if(this.goingDown){
-      this.size-=random(this.size/70,this.size/69)*(dt/16)
+      this.size-=random(this.size/40,this.size/39)*(dt)*playSpeed
     }
     if(!this.goingDown){
-      this.size+=random(this.size/70,this.size/69)*(dt/16)
+      this.size+=random(this.size/40,this.size/39)*(dt)*playSpeed
     }
      if(this.slowdown && !this.shatter){
-      this.pos.x += this.xv*0.6*(dt/16);
-      this.pos.y += this.yv*0.6*(dt/16)
+      this.pos.x += this.xv*0.6*(dt)*playSpeed
+      this.pos.y += this.yv*0.6*(dt)*playSpeed
     }
     if(this.shatter){
-     this.pos.x += this.xv*0.8*(dt/16)
-      this.pos.y+=this.yv*0.8*(dt/16)
-      this.cooldownTillDone--;
+     this.pos.x += this.xv*0.8*(dt)*playSpeed
+      this.pos.y+=this.yv*0.8*(dt)*playSpeed
+      this.cooldownTillDone-=60*dt;
     }
-    if(this.cooldownTillDone ===180){
+    if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
      if(!this.shatter && !this.slowdown){
-     this.pos.x +=this.xv*(dt/16);
-      this.pos.y+=this.yv*(dt/16);
+     this.pos.x +=this.xv*(dt)*playSpeed
+      this.pos.y+=this.yv*(dt)*playSpeed
     }
     this.collideWorld();
     this.baseSpd = new Vec(this.xv,this.yv);
@@ -235,21 +234,21 @@ class CircleEnemy extends Enemy{
  }
   update(game,dt){
             if(this.slowdown&&!this.shatter){
-  this.pos.x += this.xv*((sin(frames/40)+1)*(dt/16)+ random(-0.1, 0.1))*0.6
-      this.pos.y += this.yv*((cos(frames/40)+1)*(dt/16)+ random(-0.1, 0.1))*0.6
+  this.pos.x += this.xv*((sin(frames/40)+1)*(dt)*0.6*playSpeed+ random(-0.1, 0.1))
+      this.pos.y += this.yv*((cos(frames/40)+1)*(dt)*0.6*playSpeed+ random(-0.1, 0.1))
     }
     if(this.shatter){
-       this.pos.x += this.xv*((sin(frames/40)+1)*(dt/16) + random(-0.1, 0.1))*0.8
-  this.pos.y += this.yv*((cos(frames/40)+1)*(dt/16) + random(-0.1, 0.1))*0.8
-      this.cooldownTillDone--;
+       this.pos.x += this.xv*((sin(frames/40)+1)*(dt)*0.8*playSpeed+ random(-0.1, 0.1))
+  this.pos.y += this.yv*((cos(frames/40)+1)*(dt)*0.8*playSpeed+ random(-0.1, 0.1))
+      this.cooldownTillDone-=60*dt;
     }
-      if(this.cooldownTillDone ===180){
+      if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
     if(!this.shatter && !this.slowdown){
-   this.pos.x += this.xv*(sin(frames/40)+1)*(dt/16)+ random(-0.1, 0.1)
-  this.pos.y += this.yv*(cos(frames/40)+1)*(dt/16) + random(-0.1, 0.1)
+   this.pos.x += this.xv*(sin(frames/40)+1)*(dt)*playSpeed+ random(-0.1, 0.1)
+  this.pos.y += this.yv*(cos(frames/40)+1)*(dt)*playSpeed + random(-0.1, 0.1)
     }
      this.collideWorld();
       this.baseSpd.x = this.xv;
@@ -272,26 +271,26 @@ class RotatingEnemy extends Enemy{
  }
   update(game,dt){
     if(this.slowdown&&!this.shatter){
-     this.pos.x+=this.xv*0.6
-      this.pos.y+=this.yv*0.6;
+     this.pos.x+=this.xv*0.6*dt*playSpeed
+      this.pos.y+=this.yv*0.6*dt*playSpeed
     }
     if(this.shatter){
-     this.pos.x +=this.xv*0.8;
-      this.pos.y+=this.yv*0.8;
-      this.cooldownTillDone--;
+     this.pos.x +=this.xv*0.8*dt*playSpeed
+      this.pos.y+=this.yv*0.8*dt*playSpeed
+      this.cooldownTillDone-=60*dt;
     }
-      if(this.cooldownTillDone ===180){
+      if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
     if(!this.shatter && !this.slowdown){
-     this.pos.x+=this.xv;
-      this.pos.y+=this.yv;
+     this.pos.x+=this.xv*dt*playSpeed
+      this.pos.y+=this.yv*dt*playSpeed
     }
     this.collideWorld();
-    this.xv = (this.spd * cos(this.moverot)*(dt/16) + random(-0.05, 0.05));
-  this.yv = (this.spd * sin(this.moverot)*(dt/16) + random(-0.05, 0.05));
-  this.moverot +=0.007*this.spd*this.bruh*(dt/16);
+    this.xv = (this.spd * cos(this.moverot)*(dt)*playSpeed + random(-0.05, 0.05));
+  this.yv = (this.spd * sin(this.moverot)*(dt)*playSpeed + random(-0.05, 0.05));
+  this.moverot +=0.007*this.spd*this.bruh*(dt)*playSpeed;
       this.baseSpd.x = this.xv;
     this.baseSpd.y = this.yv;
   }
@@ -303,21 +302,21 @@ class WeirdEnemy extends Enemy{
  }
   update(game,dt){
     if(this.slowdown&&!this.shatter){
-     this.pos.x+=this.xv*sin((cos(frames/40)+1))*0.6*(dt/16)
-      this.pos.y+=this.yv*cos((sin(frames/40)+1))*0.6*(dt/16)
+     this.pos.x+=this.xv*sin((cos(frames/40)+1))*0.6*(dt)*playSpeed
+      this.pos.y+=this.yv*cos((sin(frames/40)+1))*0.6*(dt)*playSpeed
     }
     if(this.shatter){
-     this.pos.x+=this.xv*sin((cos(frames/40)+1))*0.8*(dt/16)
-      this.pos.y+=this.yv*cos((sin(frames/40)+1))*0.8*(dt/16)
-      this.cooldownTillDone--;
+     this.pos.x+=this.xv*sin((cos(frames/40)+1))*0.8*(dt)*playSpeed
+      this.pos.y+=this.yv*cos((sin(frames/40)+1))*0.8*(dt)*playSpeed
+      this.cooldownTillDone-=60*dt;
     }
-      if(this.cooldownTillDone ===180){
+      if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
     if(!this.shatter && !this.slowdown){
-     this.pos.x +=this.xv*sin((cos(frames/40)+1))*(dt/16)
-      this.pos.y+=this.yv*cos((sin(frames/40)+1))*(dt/16)
+     this.pos.x +=this.xv*sin((cos(frames/40)+1))*(dt)*playSpeed
+      this.pos.y+=this.yv*cos((sin(frames/40)+1))*(dt)*playSpeed
     }
     this.collideWorld();
       this.baseSpd.x = this.xv;
@@ -336,24 +335,24 @@ class HomingEnemy extends Enemy{
   }
   update(game,dt){
         if(this.slowdown&&!this.shatter){
-      this.pos.x += this.xv*(Math.sin(frames/this.period)+1)*0.6*(dt/16)
-      this.pos.y += this.yv*(Math.sin(frames/this.period)+1)*0.6*(dt/16)
+      this.pos.x += this.xv*(Math.sin(frames/this.period)+1)*0.6*(dt)*playSpeed
+      this.pos.y += this.yv*(Math.sin(frames/this.period)+1)*0.6*(dt)*playSpeed
     }
     if(this.shatter){
-     this.pos.x += this.xv*(Math.sin(frames/this.period)+1)*0.8*(dt/16)
-     this.pos.y += this.yv*(Math.sin(frames/this.period)+1)*0.8*(dt/16)
-      this.cooldownTillDone--;
+     this.pos.x += this.xv*(Math.sin(frames/this.period)+1)*0.8*(dt)*playSpeed
+     this.pos.y += this.yv*(Math.sin(frames/this.period)+1)*0.8*(dt)*playSpeed
+      this.cooldownTillDone-=60*dt;
     }
-      if(this.cooldownTillDone ===180){
+      if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
     if(!this.shatter && !this.slowdown){
-      this.pos.x += this.xv*(Math.sin(frames/this.period)+1)*(dt/16)
-     this.pos.y += this.yv*(Math.sin(frames/this.period)+1)*(dt/16)
+      this.pos.x += this.xv*(Math.sin(frames/this.period)+1)*(dt)*playSpeed
+     this.pos.y += this.yv*(Math.sin(frames/this.period)+1)*(dt)*playSpeed
     }
   this.collideWorld();
-      if (Math.abs(this.xv*(Math.sin(frames/this.period)+1)*(dt/16))<0.5 && Math.abs(this.yv*(Math.sin(frames/this.period)+1)*(dt/16))<0.5 && game.player.pos.x+game.player.radius< world.x-420 && game.player.pos.x -game.player.radius > 360&& dist(game.player.pos.x, game.player.pos.y, this.pos.x, this.pos.y)<this.size/2+200){
+      if (Math.abs(this.xv*(Math.sin(frames/this.period)+1)*(dt)*playSpeed)<0.5 && Math.abs(this.yv*(Math.sin(frames/this.period)+1)*(dt)*playSpeed)<0.5 && game.player.pos.x+game.player.radius< world.x-420 && game.player.pos.x -game.player.radius > 360&& dist(game.player.pos.x, game.player.pos.y, this.pos.x, this.pos.y)<this.size/2+200){
 
     this.xv = (game.player.pos.x-this.pos.x);
     this.yv = (game.player.pos.y-this.pos.y);
@@ -378,21 +377,21 @@ class FreezeSniper extends Enemy{
  }
   update(game,dt){
    super.update(game,dt);
-    if(this.cooldown === 0){
+    if(this.cooldown <= 0){
      this.canShoot = true;
     }
-    if(this.cooldown >=1){
-     this.cooldown--;
+    if(this.cooldown >=0.01){
+     this.cooldown-=60*dt;
       this.canShoot = false;
     }
     if(this.shatter){
-     this.cooldownTillDone--; 
+     this.cooldownTillDone-=60*dt; 
     }
-      if(this.cooldownTillDone ===180){
+      if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
-    if(this.canShoot){
+    if(this.canShoot&&!game.player.freezed){
        let difX = game.player.pos.x-this.pos.x
       let difY = game.player.pos.y - this.pos.y;
       let rot = Math.atan2(difY,difX);
@@ -412,22 +411,22 @@ class Bullet{
    this.xv = Math.cos(this.angle)*this.spd;
    this.yv = Math.sin(this.angle)*this.spd;
    this.size = size;
-   this.life = 400;
+   this.life = 360;
    this.toDelete = false;
    this.type = 'normal'
  }
   update(dt){
-    if(this.life >=1){
-      this.life--;
+    if(this.life >=0.01){
+      this.life-=60*dt;
     }
-    if(this.life == 0){
+    if(this.life <= 0){
      this.toDelete= true; 
     }
     if(this.pos.y - this.size/2<0 || this.pos.y + this.size/2 > world.y || this.pos.x+this.size/2 > world.x-420 || this.pos.x -this.size/2<360){
      this.toDelete = true; 
     }
-    this.pos.x += this.xv*(dt/16);
-    this.pos.y +=this.yv*(dt/16);
+    this.pos.x += this.xv*(dt)*playSpeed;
+    this.pos.y +=this.yv*(dt)*playSpeed;
   }
 }
 class FreezeBullet extends Bullet{
@@ -454,7 +453,7 @@ class BorderEnemy{
     }
   }
   update(game,dt){
-   this.pos.x+=this.xv*(dt/16)
+   this.pos.x+=this.xv*(dt)*playSpeed
     if(this.pos.x+this.size/2 > world.x-420){
      this.pos.x = world.x-420-this.size/2;
       this.xv*=-1;
@@ -488,21 +487,21 @@ class SwitchEnemy extends Enemy{
   this.canDie = false; 
  }
      if(this.slowdown && !this.shatter){
-      this.pos.x += this.xv*0.6*(dt/16);
-      this.pos.y += this.yv*0.6*(dt/16);
+      this.pos.x += this.xv*0.6*(dt)*playSpeed
+      this.pos.y += this.yv*0.6*(dt)*playSpeed
     }
     if(this.shatter){
-     this.pos.x += this.xv*0.8*(dt/16);
-      this.pos.y+=this.yv*0.8*(dt/16)
-      this.cooldownTillDone--;
+     this.pos.x += this.xv*0.8*(dt)*playSpeed
+      this.pos.y+=this.yv*0.8*(dt)*playSpeed
+      this.cooldownTillDone-=60*dt;
     }
-    if(this.cooldownTillDone ===180){
+    if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
     if(!this.shatter && !this.slowdown){
-     this.pos.x +=this.xv*(dt/16)
-      this.pos.y+=this.yv*(dt/16)
+     this.pos.x +=this.xv*(dt)*playSpeed
+      this.pos.y+=this.yv*(dt)*playSpeed
     }
     this.collideWorld();
   this.baseSpd.x = this.xv;
@@ -520,8 +519,8 @@ class ImmuneEnemy extends Enemy{
    this.type = 'immune';
  }
   update(game,dt){
-    this.pos.x+=this.xv*(dt/16)
-    this.pos.y+=this.yv*(dt/16)
+    this.pos.x+=this.xv*(dt)*playSpeed
+    this.pos.y+=this.yv*(dt)*playSpeed
     this.collideWorld();
   }
 }
@@ -530,7 +529,7 @@ class Exploder extends Enemy{
   super(spd,size);
    this.type = 'exploder';
    this.canShoot = true;
-   this.coldown = 0;
+   this.cooldown = 0;
    this.theCooldown = cooldown;
    this.shatter = false;
    this.t =1;
@@ -538,23 +537,23 @@ class Exploder extends Enemy{
  }
   update(game,dt){
    super.update(game,dt);
-        if(this.cooldown >=1){
-     this.cooldown--;
+        if(this.cooldown >=0.01){
+     this.cooldown-=60*dt;
       this.canShoot = false;
     }
-    if(this.cooldown === 0){
+    if(this.cooldown <=0){
      this.canShoot = true; 
     }
     if(this.shatter){
-     this.cooldownTillDone--; 
+     this.cooldownTillDone-=60*dt; 
     }
-      if(this.cooldownTillDone ===180){
+      if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
     if(this.canShoot&&!this.shatter){
     var sqrt2 = 1/1.41421356237;
-    if (this.type%2 === 1){
+    if (this.t%2 === 1){
       game.bullets.push(new ExploderBullet(5, 0, this.pos.x, this.pos.y, this.size/2, 119, 68, 148));
      game.bullets.push(new ExploderBullet(0, 5, this.pos.x, this.pos.y, this.size/2, 119, 68, 148));
      game.bullets.push(new ExploderBullet(0, -5, this.pos.x, this.pos.y, this.size/2, 119, 68, 148));
@@ -593,17 +592,17 @@ class Sniper extends Enemy{
  }
   update(game,dt){
    super.update(game,dt);
-            if(this.cooldown>=1){
-     this.cooldown--; 
+            if(this.cooldown>=0.01){
+     this.cooldown-=60*dt
           this.canShoot = false;
     }
-    if(this.cooldown === 0){
+    if(this.cooldown <0.01){
      this.canShoot = true; 
     }
     if(this.shatter){
-     this.cooldownTillDone--; 
+     this.cooldownTillDone=60*dt; 
     }
-      if(this.cooldownTillDone ===180){
+      if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
@@ -625,21 +624,21 @@ class DasherEnemy extends Enemy{
  }
   update(game,dt){
            if(this.slowdown&&!this.shatter){
-      this.pos.x += this.xv*(sin(frames/40)+1)*0.6*(dt/16)
-      this.pos.y += this.yv*(sin(frames/40)+1)*0.6*(dt/16);
+      this.pos.x += this.xv*(sin(frames/40)+1)*0.6*(dt)*playSpeed
+      this.pos.y += this.yv*(sin(frames/40)+1)*0.6*(dt)*playSpeed
     }
     if(this.shatter){
-      this.pos.x += this.xv*(sin(frames/40)+1)*0.8*(dt/16);
-      this.pos.y += this.yv*(sin(frames/40)+1)*0.8*(dt/16);
-      this.cooldownTillDone--;
+      this.pos.x += this.xv*(sin(frames/40)+1)*0.8*(dt)*playSpeed
+      this.pos.y += this.yv*(sin(frames/40)+1)*0.8*(dt)*playSpeed
+      this.cooldownTillDone-=60*dt;
     }
-      if(this.cooldownTillDone ===180){
+      if(this.cooldownTillDone <0.01){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
     if(!this.shatter && !this.slowdown){
-    this.pos.x += this.xv*(sin(frames/40)+1)*(dt/16);
-  this.pos.y += this.yv*(sin(frames/40)+1)*(dt/16);
+    this.pos.x += this.xv*(sin(frames/40)+1)*(dt)*playSpeed
+  this.pos.y += this.yv*(sin(frames/40)+1)*(dt)*playSpeed
     }
             this.collideWorld();
       this.baseSpd.x = this.xv;
@@ -660,6 +659,13 @@ class MegaSlowdownEnemy extends Enemy{
    this.auraSize = 200;
  }
 }
+class DisableEnemy extends Enemy{
+ constructor(spd,size){
+  super(spd,size);
+   this.type='disable';
+   this.auraSize =300;
+ }
+}
 class CloseEnemy extends Enemy{
  constructor(spd,size){
   super(spd,size);
@@ -668,14 +674,14 @@ class CloseEnemy extends Enemy{
    this.maxSize = 390;
    this.auraSize = 400;
  }
-  sizeUpdate(player){
+  sizeUpdate(player,dt){
    if(dist(this.pos.x,this.pos.y,player.pos.x,player.pos.y) < this.auraSize/2 + player.radius && player.pos.x+player.radius>360 && player.pos.x-player.radius <world.x-420){
      if(this.size<this.maxSize){
-      this.size+=1
+      this.size+=90*dt
      }
    }else{
      if(this.size > this.minSize){
-    this.size-=1  
+    this.size-=90*dt
      }
    }
   }
