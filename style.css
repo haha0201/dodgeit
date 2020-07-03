@@ -2,7 +2,10 @@ html, body {
   margin: 0;
   padding: 0;
 }
-canvas {
-  display: block;
-}
 
+    body,html {
+        background-color: #777;
+        margin: 0;
+        overflow: hidden;
+        font-family: Verdana,Arial,Times,serif
+    }
