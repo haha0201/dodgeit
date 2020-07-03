@@ -3,9 +3,3 @@ html, body {
   padding: 0;
 }
 
-    body,html {
-        background-color: #777;
-        margin: 0;
-        overflow: hidden;
-        font-family: Verdana,Arial,Times,serif
-    }
