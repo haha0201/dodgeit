@@ -1,5 +1,5 @@
 var frames = 0;
-const playSpeed = 60;
+const playSpeed = 6000;
 class Vec{
  constructor(x,y){
  this.x = x;
