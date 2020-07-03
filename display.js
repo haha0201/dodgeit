@@ -6,6 +6,9 @@ class Display{
    this.fades=[];
    this.activatedFades = false;
    this.fadesOnScreen = 0;
+   this.touchedHeros = false;
+   this.heroIndex = 0;
+   this.endScreen = false;
  }
   menu(dt){
    /*background(herocolors[currentHero].r,herocolors[currentHero].g,herocolors[currentHero].b)
@@ -76,11 +79,16 @@ textFont("Maven Pro");
    switchModeLock = false; 
   } 
   */
+   
     if(!this.spawnedButtons){
      this.spawnedButtons = true;
       this.buttons = [new MenuButton(win.x/2-100,win.y/2+win.y/4,0,-6,0,win.y/2-win.y/18,"Magmax"),new MenuButton(win.x/2,win.y/2+win.y/4,0,-7,0,win.y/2-win.y/18,"Jotunn"),new MenuButton(win.x/2+100,win.y/2+win.y/4,0,-8,0,win.y/2-win.y/18,"Kopo")]
     }
+    if(!this.touchedHeros){
     background(205);
+    }else if(this.touchedHeros){
+     background(herocolors[this.heroIndex].r-10,herocolors[this.heroIndex].g-10,herocolors[this.heroIndex].b-10,20); 
+    }
     fill(255);
     stroke(0);
     strokeWeight(5);
@@ -91,8 +99,21 @@ textFont("Maven Pro");
     fill(25, 213, 255);
  //   text("Dodge It",win.x/2-140,win.y/6);
     image(imgLogo,win.x/2-270,-100,550,450);
+      this.touchedHeros=false; 
     for(let button of this.buttons){
      button.simulate(dt); 
+      if(button.touched){
+       this.touchedHeros=true; 
+        if(button.type=="Magmax"){
+         this.heroIndex = 0; 
+        }
+        if(button.type=="Jotunn"){
+         this.heroIndex = 1; 
+        }
+        if(button.type=="Kopo"){
+         this.heroIndex = 2; 
+        }
+      }
       if(mouseP&&button.sa>1&&!this.spawnedFades){
         this.activatedFades = true;
        if(button.type=="Magmax"){
@@ -109,19 +130,20 @@ textFont("Maven Pro");
      this.activatedFades = false;
       this.fades =[new Fade(win.x,0,-15,0,0,0,win.x*2,win.y/3,"Magmax"),new Fade(win.x,win.y/3,-20,0,0,0,win.x*2,win.y/3,"Jotunn"),new Fade(win.x,win.y/3+win.y/3,-25,0,0,0,win.x*2,win.y/3,"Kopo")]
     }
-    if(this.fades!=[]){
      for(let fade of this.fades){
       fade.simulate(dt); 
-       if(fade.pos.x<50&&!fade.counted){
+       if(fade.pos.x<win.x/2&&!fade.counted){
          fade.counted = true;
         this.fadesOnScreen++; 
        }
      }
-    }
+     
     if(this.fadesOnScreen===3){
          mainMenu = false; 
     game.player.heroProperties(heros[currentHero]);
     game.loadLevel();
+    }   if(this.touchedHeros){
+     background(herocolors[this.heroIndex].r-10,herocolors[this.heroIndex].g-10,herocolors[this.heroIndex].b-10,30); 
     }
   }
   draw(game,fov,playerCamera,win,outline){
@@ -176,14 +198,16 @@ textFont("Maven Pro");
     /* drawing teleporter*/
     fill(255,242,0);
     for(let teleporter of game.world.teleporters){
-    rect(win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
+    image(imgTeleporter,win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
     }
     fill(12, 250, 210)
-    for(let teleporter of game.world.areaTeleporters){
+        for(let teleporter of game.world.areaTeleporters){
       if(teleporter.type=='side'){
-        fill(219, 49, 46,110); 
+
+        image(imgSideTeleporter,win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
+      }else{
+       image(imgAreaTeleporter,win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
       }
-       rect(win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
     }
    
     /* drawing enemies */
@@ -252,10 +276,18 @@ textFont("Maven Pro");
          }
          strokeWeight(2*fov) 
       }
+      if(enemy.inAura){
+       fill(110, 37, 37,200);
+      }
     circle(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.size*fov);
-      if(enemy.slowdown && enemy.type !='border'&&enemy.type!='immune'&&(!enemy.shatter)&&(enemy.canDie === undefined)||(enemy.type=='switch'&&enemy.canDie)){
-       fill(99, 145, 148,120); 
+      if(enemy.slowdown &&(!enemy.shatter)){
+        if(enemy.type=="switch"&&enemy.canDie){
+       fill(99, 145, 148,170); 
  circle(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.size*fov);
+        }else if(enemy.type!='border'&&enemy.type!='immune'){
+            fill(99, 145, 148,170); 
+ circle(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.size*fov);
+        }
       }
       if(enemy.type =='close'){
         noStroke();
@@ -293,6 +325,9 @@ textFont("Maven Pro");
       }
     /* drawing player */
     fill(herocolors[currentHero].r,herocolors[currentHero].g,herocolors[currentHero].b);
+    if(game.player.hero=="Kopo"&&game.player.isSmall){
+     fill(herocolors[currentHero].r+50,herocolors[currentHero].g+30,herocolors[currentHero].b+30); 
+    }
     if(game.player.flow){
      fill( 207, 114, 14);
     }else if(game.player.harden){
@@ -306,7 +341,7 @@ textFont("Maven Pro");
     if(game.player.hero == "Kopo" && game.player.isSmall){
     for(let i = game.player.history.length-1; i>=0;i--){
         noStroke();
-       fill(herocolors[currentHero].r,herocolors[currentHero].g,herocolors[currentHero].b,100*(i/25));
+       fill(herocolors[currentHero].r+(i/2),herocolors[currentHero].g+(i/4),herocolors[currentHero].b+(i/4),170*(i/60));
     if(game.player.freezed){
       fill(30, 58, 217);
     }
@@ -316,7 +351,7 @@ textFont("Maven Pro");
      circle(win.x/2 +(game.player.history[i].x - playerCamera.x)*fov,win.y/2+(game.player.history[i].y-playerCamera.y)*fov,game.player.radius*2*fov); 
       }
        if(game.player.auraLocation.x !==-10000&&game.player.dhAt === game.zone){
-      fill(84, 92, 196,game.player.auraDuration+10);
+      fill(154, 92, 196,game.player.auraDuration+10);
       circle(win.x/2+(game.player.auraLocation.x-playerCamera.x)*fov,win.y/2+(game.player.auraLocation.y-playerCamera.y)*fov,game.player.auraSize*fov);
     }
     }
@@ -418,6 +453,96 @@ textFont("Maven Pro");
       text(`Time:${timeM}:0${time}`,win.x-130,30)
     }
     
+  if(game.player.hero =="Jotunn"){
+     image(imgJotunn,win.x/2-25,win.y/2-28,50,55);
+    image(imgJotunnPower1,win.x/2-98,win.y-60,60,60);
+    image(imgJotunnPower2,win.x/2+40,win.y-60,60,60);
+    for(let enemy of game.enemies){
+     if(enemy.slowdown){
+      fill(0,0,200,50);
+       noStroke();
+       rect(win.x/2-98,win.y-60,60,60);
+       break;
+     }
+    }
+    if(game.player.cooldown >=1){
+      fill(0,0,255,70);
+      noStroke();
+     rect(win.x/2+40,win.y-60,60,60) 
+    }
   }
+  if(game.player.hero == "Magmax"){
+   image(imgMagmax,win.x/2-25,win.y/2-19,50,40); 
+    image(imgMagmaxPower1,win.x/2-98,win.y-60,60,60);
+    image(imgMagmaxPower2,win.x/2+40,win.y-60,60,60);
+    if(game.player.cooldown>=1){
+       image(imgMagmaxPumpkinOff,win.x/2-30,win.y-60,60,60);
+    }else{
+    image(imgMagmaxPumpkin,win.x/2-30,win.y-60,60,60);
+    }
+    if(game.player.flow){
+     fill(204, 126, 49,110);
+      noStroke();
+      rect(win.x/2-98,win.y-60,60,60);
+    }
+    if(game.player.harden){
+     fill(110, 20, 4,110);
+      noStroke();
+      rect(win.x/2+40,win.y-60,60,60);
+    }
+  }
+  if(game.player.hero == "Kopo"){
+    if(game.player.isSmall){
+   image(imgKopo,win.x/2-22,win.y/2-29.5,44,60); 
+    }else{
+      image(imgKopo,win.x/2-27,win.y/2-31.5,55,65); 
+    }
+    image(imgKopoPower1,win.x/2-98,win.y-60,60,60)
+     image(imgKopoPower2,win.x/2+40,win.y-60,60,60);
+    if(game.player.isSmall){
+     fill(0,0,50,70);
+      rect(win.x/2-98,win.y-60,60,60);
+    }
+    if(game.player.cooldown>=1){
+      fill(0,0,70,110);
+      rect(win.x/2+40,win.y-60,60,60);
+    }
+  } 
+      
+  if(game.level>=41||game.zone ===4&&game.level>=17){
+    this.endScreen = true;
+    }
+    if(this.endScreen){
+      finishedSpeedrun = true;
+      game.level = 41;
+      background(125);
+      fill(0);
+      textSize(40);
+      text(`Region Defeated:${game.areas[game.zone]}`,win.x/2-230,40);
+      text(`Hero Used:${heros[currentHero]}`,win.x/2-150,80);
+      if(time<9){
+      text(`Time:${timeM}:0${time}`,win.x/2-70,120);
+        }else{
+         text(`Time:${timeM}:${time}`,win.x/2-70,120); 
+        }
+      text(`Deaths:${game.player.deaths}`,win.x/2-70,160);
+      if(skippedLevel || skipLevel){
+        fill(255,0,0);
+        noStroke();
+        circle(win.x/2+30,win.y/2-10,300,300);
+        fill(0);
+       text(`Skipped Levels`,win.x/2-100,win.y/2) 
+      } 
+    }
+         if(this.fades!=[]){
+     for(let i=this.fades.length-1;i>=0;i--){
+      this.fades[i].simulate();
+       if(this.fades[i].pos.x<-win.x*3){
+        display.fades.splice(i,1); 
+       }
+     }
+    }
+}
+  
   
 }
