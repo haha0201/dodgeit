@@ -1167,8 +1167,8 @@ Game.prototype.player = {
   
     this.pos.x += this.vel.x*playSpeed/5*(dt)
     this.pos.y += this.vel.y*playSpeed/5*(dt)
-    this.vel.x *=Math.pow(this.friction/(playSpeed+500),dt)
-    this.vel.y *=Math.pow(this.friction/(playSpeed+500),dt);
+  this.vel.x *=Math.pow(this.friction/(playSpeed*1000),dt)
+    this.vel.y *=Math.pow(this.friction/(playSpeed*1000),dt);
     this.megaslow = false;
     this.slowdown = false;
     /* bounding player */
