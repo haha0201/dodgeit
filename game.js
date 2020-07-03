@@ -569,10 +569,7 @@ class Game {
         this.spawnEnemy(3, 2, 35, 'exploder', 400);
         this.spawnEnemy(3, 2, 35, 'sniper', 400);
         this.spawnEnemy(30, 2, 65, 'border');
-      } else if (this.level === 11) {
-        this.resetEnemies();
-        this.spawnEnemy(1, 15, 35, 'normal');
-      } 
+      }
     } else if (this.zone === 3) {
       world = new Vec(6150, 450);
       if (this.level === 0) {
@@ -999,7 +996,7 @@ Game.prototype.player = {
       this.auraDuration = 240;
       this.aura = false;
       this.cooldown = 0;
-      this.auraCooldown = 700;
+      this.auraCooldown = 600;
       this.auraOn = false;
       this.auraDisabled = true;
       this.auraAfter = false;
@@ -1027,6 +1024,13 @@ Game.prototype.player = {
         this.spd = 0.4;
       }
     }
+    if(this.freeze>=0){
+     this.freeze-=60*dt 
+    }
+    if(this.freeze<=0){
+     this.freeze=0;
+      this.freezed = false;
+    }
     /* magmax abilities */
     if(this.hero=="Magmax"){
     if (!this.freezed) {
@@ -1051,10 +1055,10 @@ Game.prototype.player = {
         this.spd = 0;
       }
       if (this.cooldown >= 1 && !this.harden) {
-        this.cooldown--;
+        this.cooldown-=60*dt;
       }
       if (this.harden && this.hardenMaxTime >= 1) {
-        this.hardenMaxTime--;
+        this.hardenMaxTime-=60*dt;
       }
       if (this.hardenMaxTime === 0) {
         this.harden = false;
@@ -1072,26 +1076,27 @@ Game.prototype.player = {
     }
     /* jotunn abilities */
     if (this.hero == "Jotunn") {
-      if (this.cooldown === 0) {
+      if (this.cooldown <= 0.05) {
+        this.cooldown = 0;
         this.shard = true;
       }
-      if (this.cooldown >= 1) {
-        this.cooldown--;
+      if (this.cooldown >= 0.01) {
+        this.cooldown-=60*dt;
       }
     }
     /* kopo's abilities */
     if (this.hero == "Kopo") {
-      if (this.cooldown === 0) {
+      if (this.cooldown <=0.009) {
         this.aura = true;
       }
-      if (this.disabledAuraTimer >= 1) {
-        this.disabledAuraTimer--;
+      if (this.disabledAuraTimer >= 0) {
+        this.disabledAuraTimer-=60*dt;
       }
-      if (this.disabledAuraTimer === 0) {
+      if (this.disabledAuraTimer <= 0) {
         this.disabledAuraTimer = 0;
       }
-      if (this.cooldown >= 1) {
-        this.cooldown--;
+      if (this.cooldown >= 0.01) {
+        this.cooldown-=60*dt;
       }
       if (controller.firstAbility && !this.smalllock) {
         this.smalllock = true;
@@ -1107,7 +1112,7 @@ Game.prototype.player = {
         this.smalllock = false;
       }
       if (controller.secondAbility && this.aura && this.isSmall) {
-        this.auraLocation = new Vec(this.pos.x, this.pos.y);
+        this.auraLocation = new Vec(this.pos.x+this.vel.x, this.pos.y+this.vel.y);
         this.auraSize = 150;
         this.auraAfter = false;
         this.auraDisabled = false;
@@ -1117,26 +1122,27 @@ Game.prototype.player = {
         this.dhAt = game.zone;
       }
       if (this.auraOn) {
-        this.auraDuration--;
+        this.auraDuration-=60*dt;
       }
       if (!this.auraOn) {
         this.auraDuration = 120;
       }
       if (this.isSmall) {
-        if (this.history.length - 1 > 30) {
+        if (this.history.length - 1 > 120) {
           this.history.splice(0, 1);
+          this.history.splice(1,1)
         }
         this.history.push(new Vec(this.pos.x, this.pos.y));
-
+  this.history.push(new Vec(this.pos.x, this.pos.y));
       } else {
         this.history = [];
       }
       if (this.auraOn) {
-        this.auraSize += 4;
-        if (this.cooldown === 580) {
+        this.auraSize += 200*dt;
+        if (this.auraDuration<=0) {
           this.auraLocation = new Vec(-10000, 0);
           this.auraOn = false;
-          this.disabledAuraTimer = 60;
+          this.disabledAuraTimer = 45;
           this.auraDisabled = true;
           this.auraAfter = true;
         }
@@ -1159,10 +1165,10 @@ Game.prototype.player = {
       this.harden = false;
     }
   
-    this.pos.x += this.vel.x*(dt/16)
-    this.pos.y += this.vel.y*(dt/16)
-    this.vel.x *=Math.pow(this.friction,dt/16)
-    this.vel.y *=Math.pow(this.friction,dt/16);
+    this.pos.x += this.vel.x*playSpeed/5*(dt)
+    this.pos.y += this.vel.y*playSpeed/5*(dt)
+    this.vel.x *=Math.pow(this.friction/(playSpeed+500),dt)
+    this.vel.y *=Math.pow(this.friction/(playSpeed+500),dt);
     this.megaslow = false;
     this.slowdown = false;
     /* bounding player */
@@ -1233,6 +1239,9 @@ Game.prototype.player = {
             this.history = [];
           }
           this.pos.y = world.y - 60;
+          if(this.pos.x-this.radius<50){
+           this.pos.x= world.x/15
+          }
         }
         if (teleporter.type == "bottom") {
           /* bottom teleporter */
@@ -1246,6 +1255,9 @@ Game.prototype.player = {
             this.history = [];
           }
           this.pos.y = 60;
+           if(this.pos.x-this.radius<50){
+           this.pos.x= world.x/15
+          }
         }
            if(teleporter.type=='side'){
              if(game.zone ===0&&game.level === 0){
@@ -1301,6 +1313,7 @@ Game.prototype.player = {
       this.cooldown = this.shardCooldown;
          }
     for(let enemy of game.enemies){
+      enemy.inAura = false;
         if (dist(enemy.pos.x, enemy.pos.y, this.pos.x, this.pos.y) < this.radius + 200 && enemy.type == 'liquid') {  
           enemy.speedState = 'fast';
         } else if (enemy.type == 'liquid') {
@@ -1324,9 +1337,10 @@ Game.prototype.player = {
               enemy.pos.y = this.auraLocation.y + randomNumber(this.auraSize / 4, this.auraSize / 2) - randomNumber(this.auraSize / 4, this.auraSize / 2);
               enemy.xv = 0;
               enemy.yv = 0;
+              enemy.inAura = true;
             }
           }
-          if (this.disabledAuraTimer === 0 && enemy.xv === 0 && enemy.yv === 0 && !this.auraOn) {
+          if (this.disabledAuraTimer <= 0 && enemy.xv === 0 && enemy.yv === 0 && !this.auraOn) {
             enemy.randomizeVel();
           }
         }
@@ -1366,9 +1380,7 @@ Game.prototype.player = {
       for (let bullet of game.bullets) {
         if (dist(this.pos.x, this.pos.y, bullet.pos.x, bullet.pos.y) < this.radius + bullet.size / 2) {
           if (bullet.type == 'freeze' && !this.freezed) {
-            setTimeout(() => {
-              this.freezed = false;
-            }, 2000)
+            this.freeze =120;
             this.freezed = true;
           } else if (bullet.type == "normal" || bullet.type == "exploder") {
             if (!this.harden) {
