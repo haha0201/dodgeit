@@ -85,20 +85,20 @@ textFont("Maven Pro");
       this.buttons = [new MenuButton(win.x/2-100,win.y/2+win.y/4,0,-6,0,win.y/2-win.y/18,"Magmax"),new MenuButton(win.x/2,win.y/2+win.y/4,0,-7,0,win.y/2-win.y/18,"Jotunn"),new MenuButton(win.x/2+100,win.y/2+win.y/4,0,-8,0,win.y/2-win.y/18,"Kopo")]
     }
     if(!this.touchedHeros){
-    background(205);
+    ctx.fillStyle = "rgb(205,205,205)"
     }else if(this.touchedHeros){
-     background(herocolors[this.heroIndex].r-10,herocolors[this.heroIndex].g-10,herocolors[this.heroIndex].b-10,20); 
+     ctx.fillStyle = `rgba(${herocolors[this.heroIndex].r-10},${herocolors[this.heroIndex].g-10},${herocolors[this.heroIndex].b-10},0.3)`
     }
-    fill(255);
-    stroke(0);
-    strokeWeight(5);
-    rect(1.5,win.y/2-win.y/4,win.x-5,win.y/2);
-    textFont("Trebuchet MS");
-    textSize(45);
-    noStroke();
-    fill(25, 213, 255);
+    ctx.fillRect(0,0,win.x,win.y);
+    ctx.fillStyle = "rgb(255,255,255)";
+    ctx.strokeStyle ="black"
+    ctx.lineWidth = (5);
+    ctx.fillRect(1.5,win.y/2-win.y/4,win.x-5,win.y/2);
+    ctx.font = " 45px Trebuchet MS"
+ //   noStroke();
+    ctx.fillStyle = "rgb(25, 213, 255)"
  //   text("Dodge It",win.x/2-140,win.y/6);
-    image(imgLogo,win.x/2-270,-100,550,450);
+    ctx.drawImage(imgLogo,win.x/2-270,-100,550,450);
       this.touchedHeros=false; 
     for(let button of this.buttons){
      button.simulate(dt); 
@@ -132,7 +132,7 @@ textFont("Maven Pro");
     }
      for(let fade of this.fades){
       fade.simulate(dt); 
-       if(fade.pos.x<win.x/2&&!fade.counted){
+       if(fade.pos.x<win.x/10&&!fade.counted){
          fade.counted = true;
         this.fadesOnScreen++; 
        }
@@ -143,402 +143,433 @@ textFont("Maven Pro");
     game.player.heroProperties(heros[currentHero]);
     game.loadLevel();
     }   if(this.touchedHeros){
-     background(herocolors[this.heroIndex].r-10,herocolors[this.heroIndex].g-10,herocolors[this.heroIndex].b-10,30); 
+     ctx.fillStyle = `rgba(${herocolors[this.heroIndex].r-10},${herocolors[this.heroIndex].g-10},${herocolors[this.heroIndex].b-10},0.1)`
+     ctx.fillRect(0,0,win.x,win.y);
     }
   }
-  draw(game,fov,playerCamera,win,outline){
-    background(150);
+  draw(game,fov,playerCamera,win,outline,dt){
+  
+    ctx.fillStyle="rgb(150,150,150)"
     if(game.zone === 0 ){
-     background(168,215,237,120); 
+     ctx.fillStyle = "rgba(168,215,237,0.5)" 
     }else if(game.zone === 1){
-     background(4, 76, 105,120); 
+     ctx.fillStyle = "rgba(4, 76, 105,0.5);"
     }else if(game.zone === 2){
-     background(200,41,0,60); 
+     ctx.fillStyle = "rgba(200,41,0,0.35)"
     }else if(game.zone === 3 || game.zone ===4){
-    background(10,10,10,220);
+    ctx.fillStyle = "rgba(10,10,10,0.94)"
     }else if(game.zone === 5){
-     background(221, 204, 255,80); 
+     ctx.fillStyle = "rgba(221, 204, 255,0.4)"
     }else if(game.zone === 6){
-     background(107, 27, 227,80) 
+     ctx.fillStyle = "rgba(107, 27, 227,0.4)" 
     }else if(game.zone === game.hellZone){
-      background(40,40,40,220);
+      ctx.fillStyle = "rgba(40,40,40,0.94)"
     }
+    ctx.fillRect(0,0,win.x,win.y);
     /* drawing map */
     if(outline){
-     stroke(0);
-      strokeWeight(2*fov)
-    }else{
-    noStroke();
+     ctx.strokeStyle = "black"
+      ctx.lineWidth = (2*fov)
     }
-    fill(200);
-    rect(win.x/2 + (0-playerCamera.x)*fov,win.y/2+(0-playerCamera.y)*fov,world.x*fov,world.y*fov);
+    ctx.fillStyle="rgb(200,200,200)"
+    ctx.fillRect(win.x/2 + (0-playerCamera.x)*fov,win.y/2+(0-playerCamera.y)*fov,world.x*fov,world.y*fov);
+    if(outline){
+     ctx.strokeRect(win.x/2 + (0-playerCamera.x)*fov,win.y/2+(0-playerCamera.y)*fov,world.x*fov,world.y*fov);
+    }
     if(game.zone ===0 ){
-     fill(168, 215, 237,80) 
+     ctx.fillStyle= "rgba(168, 215, 237,0.4)" 
     }else if(game.zone===1){
-      fill(4, 76, 105,80);
+      ctx.fillStyle = "rgba(4, 76, 105,0.4)"
     }else if(game.zone === 2){
-     fill(161, 61, 14,80); 
+     ctx.fillStyle = "rgba(161, 61, 14,0.4)"
     }else if(game.zone === 3){
-     fill(10,10,10,80); 
+     ctx.fillStyle = "rgba(10,10,10,0.4)"
     }else if(game.zone === 4){
-     fill(0,0,0,80); 
+     ctx.fillStyle = "rgba(0,0,0,0.4)"
     }else if(game.zone === 5){
-     fill(221, 204, 255,80); 
+     ctx.fillStyle = "rgba(221, 204, 255,0.4)"
     }else if(game.zone === 6){
-     fill(107, 27, 227,80); 
+     ctx.fillStyle = "rgba(107, 27, 227,0.4)";
     }
-    rect(win.x/2 + (0-playerCamera.x)*fov,win.y/2+(0-playerCamera.y)*fov,world.x*fov,world.y*fov);
+    ctx.fillRect(win.x/2 + (0-playerCamera.x)*fov,win.y/2+(0-playerCamera.y)*fov,world.x*fov,world.y*fov);
     if(game.zone === game.hellZone){
-     fill(20,20,20,150); 
+     ctx.fillStyle="rgba(20,20,20,0.55)"
     }
       /* drawing safe zones */
     for(let safe of game.world.safes){
-     rect(win.x/2+(safe.x-playerCamera.x)*fov,win.y/2+(safe.y-playerCamera.y)*fov,safe.w*fov, safe.h*fov); 
+     ctx.fillRect(win.x/2+(safe.x-playerCamera.x)*fov,win.y/2+(safe.y-playerCamera.y)*fov,safe.w*fov, safe.h*fov); 
     }
     /* drawing teleporter*/
-    fill(255,242,0);
+    ctx.fillStyle = "rgb(255,242,0)"
     for(let teleporter of game.world.teleporters){
-    image(imgTeleporter,win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
+    ctx.drawImage(imgTeleporter,win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
     }
-    fill(12, 250, 210)
+    ctx.fillStyle = "rgb(12, 250, 210)"
         for(let teleporter of game.world.areaTeleporters){
       if(teleporter.type=='side'){
 
-        image(imgSideTeleporter,win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
+        ctx.drawImage(imgSideTeleporter,win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
       }else{
-       image(imgAreaTeleporter,win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
+       ctx.drawImage(imgAreaTeleporter,win.x/2+(teleporter.x-playerCamera.x)*fov,win.y/2 + (teleporter.y-playerCamera.y)*fov,teleporter.w*fov,teleporter.h*fov);
       }
     }
    
     /* drawing enemies */
+    ctx.lineWidth= 0;
     for(let enemy of game.enemies){
       if(enemy.type =='normal'){
-          fill(100);
+          ctx.fillStyle = "rgb(100,100,100)"
       }else if(enemy.type == 'dasher'){
-       fill(50,50,200); 
+         ctx.fillStyle = "rgb(50,50,200)"
       }else if(enemy.type =='close'){
-        stroke(0, 0, 0);
+        ctx.strokeStyle = "black"
         if(!enemy.shatter||!enemy.canDie){
-        strokeWeight(1*fov);
-       fill(48, 182, 166);
+        ctx.lineWidth = (1*fov);
+         ctx.fillStyle = "rgb(48, 182, 166)"
         }
       }else if(enemy.type == 'slowdown'){
-       fill( 212, 53, 32);
+         ctx.fillStyle = "rgb(212, 53, 32)"
         if(!enemy.shatter||!enemy.canDie){
-        stroke(0);
-        strokeWeight(1*fov);
+        ctx.strokeStyle="black"
+        ctx.lineWidth =(1*fov);
         }
       }else if(enemy.type == 'sniper'){
-        fill(125, 79, 32)
-        noStroke();
+          ctx.fillStyle = "rgb(125, 79, 32)"
+        //noStroke();
       }else if(enemy.type =='homing'){
-       fill(219, 83, 24);
+         ctx.fillStyle = "rgb(219, 83, 24)"
       }else if(enemy.type == 'freeze'){
-       fill(115, 24, 161); 
+         ctx.fillStyle = "rgb(115, 24, 161)"
       }else if(enemy.type == 'exploder'){
-       fill(142, 31, 148);
+         ctx.fillStyle = "rgb(142, 31, 148)"
       }else if(enemy.type =='border'){
-       fill(0,0,0); 
+         ctx.fillStyle = "rgb(0,0,0)"
       }else if(enemy.type == 'circle'){
-         
-            fill( 112, 31, 4);
+              ctx.fillStyle = "rgb(112, 31, 4)"
       }else if(enemy.type == 'rotate'){
-       fill(194, 160, 25); 
+         ctx.fillStyle = "rgb(194, 160, 25)"
       }else if(enemy.type =='weird'){
-       fill(22, 97, 9 );
+         ctx.fillStyle = "rgb(22, 97, 9 )"
       }else if(enemy.type=='megaslow'){
-       fill(27, 171, 152); 
+         ctx.fillStyle = "rgb(27, 171, 152)" 
       }else if(enemy.type == 'sizing'){
-       fill(237, 103, 0); 
+         ctx.fillStyle = "rgb(237, 103, 0)"
       }else if(enemy.type == 'icicle'){
-       fill(22, 167, 224); 
+         ctx.fillStyle = "rgb(22, 167, 224)"
       }else if(enemy.type =='liquid'){
-       fill(11, 117, 143); 
+         ctx.fillStyle = "rgb(11, 117, 143)"
       }else if(enemy.type=='immune'){
-       fill(10); 
+         ctx.fillStyle = "rgb(10,10,10)" 
       }else if(enemy.type=="switch" && enemy.canDie){
-       fill(50,50,50,220); 
+         ctx.fillStyle = "rgba(50,50,50,0.94)"
       }else if(enemy.type=="switch" && !enemy.canDie){
-       fill(120,120,120,75); 
+         ctx.fillStyle = "rgba(120,120,120,0.45)"
       }
      
       if(enemy.shatter){
-       fill(120,120,120, 45) 
-        noStroke();
+         ctx.fillStyle = "rgba(150,150,150, 0.7)"
+       
       }
        if(outline){
-                  stroke(0);
          if(enemy.type=='switch' &&!enemy.canDie){
-            stroke(120,120,120,75); 
+            ctx.strokeStyle= "rgba(120,120,120,0.29)"
          }
          if(enemy.shatter){
-           stroke(120,120,120,45);
+           ctx.strokeStyle="rgba(120,120,120,0.15)"
          }
-         strokeWeight(2*fov) 
+         ctx.lineWidth = (2*fov) 
       }
       if(enemy.inAura){
-       fill(110, 37, 37,200);
+         ctx.fillStyle = "rgba(110, 37, 37,0.8)"
       }
-    circle(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.size*fov);
+      ctx.beginPath();
+    ctx.arc(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.size/2*fov,0,Math.PI*2);
+      ctx.fill();
+      if(outline){
+       ctx.stroke(); 
+      }
       if(enemy.slowdown &&(!enemy.shatter)){
         if(enemy.type=="switch"&&enemy.canDie){
-       fill(99, 145, 148,170); 
- circle(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.size*fov);
+         ctx.fillStyle = "rgba(99, 145, 148,0.78)"
+          ctx.beginPath();
+ ctx.arc(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.size/2*fov,0,Math.PI*2);
+          ctx.fill();
         }else if(enemy.type!='border'&&enemy.type!='immune'){
-            fill(99, 145, 148,170); 
- circle(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.size*fov);
+            ctx.fillStyle= "rgba(59, 130, 245,0.6)"
+          ctx.beginPath();
+ ctx.arc(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.size/2*fov,0,Math.PI*2);
+          ctx.fill();
         }
       }
       if(enemy.type =='close'){
-        noStroke();
-  fill(98, 252, 206, 15);
+  ctx.fillStyle="rgba(98, 252, 206, 0.1)"
       }else if(enemy.type == 'slowdown'){
-       noStroke();
-        fill(212,53,32,15);
-        noStroke();
+        ctx.fillStyle="rgba(212,53,32,0.1)"
       }else if(enemy.type =='megaslow'){
-        noStroke();
-        fill(27, 171, 152,15);
+        ctx.fillStyle="rgba(27, 171, 152,0.1)"
       }
       if(enemy.auraSize){
-      circle(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.auraSize*fov);
+        ctx.beginPath();
+      ctx.arc(win.x/2+(enemy.pos.x-playerCamera.x)*fov,win.y/2+(enemy.pos.y-playerCamera.y)*fov,enemy.auraSize/2*fov,0,Math.PI*2);
+        ctx.fill();
       }
     }
     /* drawing bullets */
     
     if(outline){
-      stroke(0);
-       strokeWeight(2*fov) 
-    }else{
-     noStroke(); 
+       ctx.lineWidth = (2*fov) 
     }
-    fill(125, 79, 32);
     for(let bullet of game.bullets){
       if(bullet.type == 'freeze'){
-         fill(55, 77, 176); 
+         ctx.fillStyle = "rgb(55, 77, 176)"
       }else if(bullet.type == 'exploder'){
-       fill(142, 31, 148); 
+        ctx.fillStyle = "rgb(142, 31, 148)" 
       }else if(bullet.type=='normal'){
-           fill(125, 79, 32);
+            ctx.fillStyle = "rgb(125, 79, 32)"
       }
-    circle(win.x/2+(bullet.pos.x-playerCamera.x)*fov,win.y/2+(bullet.pos.y-playerCamera.y)*fov,bullet.size*fov);
+      ctx.beginPath();
+    ctx.arc(win.x/2+(bullet.pos.x-playerCamera.x)*fov,win.y/2+(bullet.pos.y-playerCamera.y)*fov,bullet.size/2*fov,0,Math.PI*2);
+      ctx.fill()
+      if(outline){
+        ctx.stroke();
+      }
       }
     /* drawing player */
-    fill(herocolors[currentHero].r,herocolors[currentHero].g,herocolors[currentHero].b);
+    ctx.fillStyle= `rgb(${herocolors[currentHero].r},${herocolors[currentHero].g},${herocolors[currentHero].b})`
     if(game.player.hero=="Kopo"&&game.player.isSmall){
-     fill(herocolors[currentHero].r+50,herocolors[currentHero].g+30,herocolors[currentHero].b+30); 
+   ctx.fillStyle= `rgb(${herocolors[currentHero].r+50},${herocolors[currentHero].g+30},${herocolors[currentHero].b+30})`
     }
     if(game.player.flow){
-     fill( 207, 114, 14);
+     ctx.fillStyle="rgb(232, 124, 0)"
     }else if(game.player.harden){
-     fill(105, 7, 7)
+     ctx.fillStyle="rgb(84, 37, 37)"
     }
-    noStroke();
     if(game.player.freezed){
-      fill(30, 58, 217);
+      ctx.fillStyle="rgb(30, 58, 217)"
     }
-    circle(win.x/2,win.y/2,game.player.radius*2*fov);
+    ctx.beginPath();
+    ctx.arc(win.x/2,win.y/2,game.player.radius*fov,0,Math.PI*2);
+    ctx.fill();
     if(game.player.hero == "Kopo" && game.player.isSmall){
+    
     for(let i = game.player.history.length-1; i>=0;i--){
-        noStroke();
-       fill(herocolors[currentHero].r+(i/2),herocolors[currentHero].g+(i/4),herocolors[currentHero].b+(i/4),170*(i/60));
+  
+       ctx.fillStyle = `rgba(${herocolors[currentHero].r+(i/2)},${herocolors[currentHero].g+(i/4)},${herocolors[currentHero].b+(i/4)},${0.5*(i/60)})`
     if(game.player.freezed){
-      fill(30, 58, 217);
+      ctx.fillStyle="rgb(30, 58, 217)"
     }
     if(game.player.firstFreeze){
-     fill(146, 44, 184); 
+     ctx.fillStyle="rgb(146, 44, 184)"
     }
-     circle(win.x/2 +(game.player.history[i].x - playerCamera.x)*fov,win.y/2+(game.player.history[i].y-playerCamera.y)*fov,game.player.radius*2*fov); 
+      ctx.beginPath();
+     ctx.arc(win.x/2 +(game.player.history[i].x - playerCamera.x)*fov,win.y/2+(game.player.history[i].y-playerCamera.y)*fov,game.player.radius*fov,0,Math.PI*2);
+      ctx.fill();
       }
        if(game.player.auraLocation.x !==-10000&&game.player.dhAt === game.zone){
-      fill(154, 92, 196,game.player.auraDuration+10);
-      circle(win.x/2+(game.player.auraLocation.x-playerCamera.x)*fov,win.y/2+(game.player.auraLocation.y-playerCamera.y)*fov,game.player.auraSize*fov);
+      ctx.fillStyle=`rgba(154, 92, 196,${game.player.auraDuration/120})`
+      ctx.beginPath();
+      ctx.arc(win.x/2+(game.player.auraLocation.x-playerCamera.x)*fov,win.y/2+(game.player.auraLocation.y-playerCamera.y)*fov,game.player.auraSize/2*fov,0,Math.PI*2);
+ctx.fill();
+         ctx.stroke();
     }
     }
     /* level text */
-    textSize(60*fov);
-    stroke(170);
-    strokeWeight(10*fov)
-    fill(255,0,0);
+   ctx.font=`${60*fov}px Trebuchet MS`
+    ctx.strokeStyle="rgb(170,170,170)"
+    ctx.lineWidth = (10*fov)
+    ctx.fillStyle="rgb(255,0,0)"
     if(game.zone === 0 || game.zone === 1){
-    fill(46, 184, 209);
+     ctx.fillStyle = "rgb(46, 184, 209)"
     }else if(game.zone === 2){
-     fill(205,0,0); 
+      ctx.fillStyle = "rgb(205,0,0)"
     }else if(game.zone === 3|| game.zone === 4){
-     fill(255); 
+      ctx.fillStyle = "rgb(255,255,255)"
     }else if(game.zone === 5){
-     fill(137, 114, 184); 
+      ctx.fillStyle = "rgb(137, 114, 184)"
     }else if(game.zone === 6){
-     fill(107, 27, 227) 
+      ctx.fillStyle = "rgb(107, 27, 227)"
     }
     if(game.level !== 0&&game.areas[game.zone]!== undefined){
-    text(`${game.areas[game.zone]}: Level ${game.level}`,win.x/2-200 +(600-playerCamera.x)*fov,win.y/2+(-50-playerCamera.y)*fov);
+    ctx.fillText(`${game.areas[game.zone]}: Level ${game.level}`,win.x/2-200 +(600-playerCamera.x)*fov,win.y/2+(-50-playerCamera.y)*fov);
     }else if(game.level === 0&&game.areas[game.zone]!== undefined){
-      text(`${game.areas[game.zone]}`,win.x/2-200 +(600-playerCamera.x)*fov,win.y/2+(-50-playerCamera.y)*fov);
+      ctx.fillText(`${game.areas[game.zone]}`,win.x/2-200 +(600-playerCamera.x)*fov,win.y/2+(-50-playerCamera.y)*fov);
     }
     if(game.areas[game.zone]=== undefined){
-       text(`Dev Project: Level ${game.level+1}`,win.x/2-200 +(600-playerCamera.x)*fov,win.y/2+(-50-playerCamera.y)*fov);
+       ctx.fillText(`Dev Project: Level ${game.level+1}`,win.x/2-200 +(600-playerCamera.x)*fov,win.y/2+(-50-playerCamera.y)*fov);
     }
     if(game.zone === game.hellZone){
       if( game.level === 0){
-        text(`Why did you come here? You can't leave`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
+        ctx.fillText(`Why did you come here? You can't leave`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
     }else if(game.level === 1){
-       text(`Aw, you're still here. You might as well complete the levels`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
+       ctx.fillText(`Aw, you're still here. You might as well complete the levels`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
     }else if(game.level === 2){
-       text(`Ready to refresh?`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
+       ctx.fillText(`Ready to refresh?`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
     }else if(game.level === 3){
-       text(`Why do you insist...`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
+       ctx.fillText(`Why do you insist...`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
     }else if(game.level === 4){
-       text(`You are not a dev. Turn back!`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
+       ctx.fillText(`You are not a dev. Turn back!`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
     }else if(game.level === 5){
-       text(`Ok noob.....`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
+       ctx.fillText(`Ok noob.....`,win.x/2-200 +(400-playerCamera.x)*fov,win.y/2+(-200-playerCamera.y)*fov);
     }
     }
 
-    fill(125);
-    noStroke();
+if(game.player.hero=="Kopo"&&game.player.isSmall){
+  //ctx.fill();
+  ctx.lineWidth = 6;
+ ctx.stroke(); 
+}
+    ctx.fillStyle = "rgb(125,125,125)"
+   // noStroke();
     if(game.player.hero == "Jotunn"){
      //     textFont("Maven Pro");
      
-      stroke(0,0,170,90);
-      strokeWeight(6);
-      fill(145,145,145,90);
-      rect(win.x/2-98,win.y-60,198,60);
-      stroke(0);
-      strokeWeight(1);
-      fill(58, 107, 186,50);
-     arc(win.x/2,win.y-30,60,60,0,Math.PI*2*(game.player.cooldown/game.player.shardCooldown));
-   textSize(15);
-      fill(0);
-      noStroke();
-      text("Shatter",win.x/2-24,win.y-28);
+      ctx.strokeStyle="rgba(0,0,170,0.45)"
+      ctx.lineWidth = (6);
+      ctx.fillStyle="rgba(145,145,145,0.45)"
+      ctx.fillRect(win.x/2-98,win.y-60,198,60);
+      ctx.strokeStyle="black"
+      ctx.lineWidth =(1);
+      ctx.fillStyle = "rgba(58, 107, 186,0.65"
+      ctx.beginPath();
+      ctx.arc(win.x/2,win.y-30,30,0,Math.PI*2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(58, 107, 186,0.9)"
+      ctx.beginPath();
+     ctx.arc(win.x/2,win.y-30,30,0,Math.PI*2*(game.player.cooldown/game.player.shardCooldown),true);
+      ctx.fill();
+   ctx.font = "15px Trebuchet MS";
+      ctx.fillStyle="black"
+   //   noStroke();
+      ctx.fillText("Shatter",win.x/2-24,win.y-28);
+      
     }
     if(game.player.hero == "Magmax"){
-        stroke(170,0,0,90);
-      strokeWeight(2);
-      fill(145,145,145,90);
-      rect(win.x/2-98,win.y-60,198,60);
-           stroke(237, 61, 26);
-      strokeWeight(1);
-      fill(181, 16, 16,220);
-      arc(win.x/2,win.y-30,80,60,0,Math.PI*2*(game.player.cooldown/game.player.hardenCooldown));
+        ctx.strokeStyle="rgba(170,0,0,0.25)"
+      ctx.lineWidth = (2);
+      ctx.fillStyle="rgba(145,145,145,0.25)"
+      ctx.fillRect(win.x/2-98,win.y-60,198,60);
+      ctx.strokeRect(win.x/2-98,win.y-60,198,60);
+           ctx.strokeStyle="rgb(237, 61, 26)"
+      ctx.lineWidth =(1);
+      ctx.fillStyle ="rgba(181, 16, 16,0.6)"
+      ctx.beginPath();
+      ctx.arc(win.x/2,win.y-30,35,0,Math.PI*2);
+      ctx.fill();
+      ctx.fillStyle ="rgb(0,0,0)"
+      ctx.beginPath();
+      ctx.arc(win.x/2,win.y-30,35,0,Math.PI*2*(game.player.cooldown/game.player.hardenCooldown),true);
+      ctx.fill();
+      if(game.player.harden){
+      ctx.beginPath();
+      ctx.fillStyle="rgba(177, 1, 1,0.5)"
+      ctx.arc(win.x/2,win.y/2,game.player.radius*fov,0,Math.PI*2*(game.player.hardenMaxTime/240),false);
+      ctx.fill();
+        
+      }
     }
     if(game.player.hero == "Kopo"){
       if(game.player.isSmall){
-         stroke(0,0,170,90);
-      strokeWeight(6);
-      fill(145,145,145,90);
-      rect(win.x/2-98,win.y-60,198,60);
-           stroke(0);
-      strokeWeight(1);
-      fill(156, 34, 161,50);
-      arc(win.x/2,win.y-30,60,60,0,Math.PI*2*(game.player.cooldown/game.player.auraCooldown));
+         ctx.strokeStyle="rgba(0,0,170,0.15)"
+      ctx.lineWidth = (6);
+      ctx.fillStyle="rgba(145,145,145,0.15)"
+      ctx.fillRect(win.x/2-98,win.y-60,198,60);
+        ctx.strokeRect(win.x/2-98,win.y-60,198,60);
+           ctx.strokeStyle="black"
+      ctx.lineWidth = (1);
+        ctx.fillStyle="rgba(156, 34, 161,0.6)"
+        ctx.beginPath();
+      ctx.arc(win.x/2,win.y-30,30,0,Math.PI*2);
+        ctx.fill();
+      ctx.fillStyle="rgba(156, 34, 161,1)"
+        ctx.beginPath();
+      ctx.arc(win.x/2,win.y-30,30,0,Math.PI*2*(game.player.cooldown/game.player.auraCooldown),true);
+        ctx.fill();
       //textFont("Maven Pro");
-      textSize(30);
-      fill(10);
-        stroke(0);
-        strokeWeight(1);
-        textAlign(CENTER, CENTER);
-      text("DH",win.x/2,win.y-30);
-        textAlign(LEFT, BOTTOM);
+     ctx.font = "30px Trebuchet MS"
+      ctx.fillStyle="rgb(10,10,10)"
+        ctx.strokeStyle="black"
+        ctx.lineWidth = 1
+       ctx.textAlign ="center"
+      ctx.fillText("DH",win.x/2,win.y-20);
+ctx.textAlign = "left"
       }
-    }
-    textSize(25);
-      fill(0);
-      noStroke();
-    text(`Deaths:${game.player.deaths}`,10,30)
+    }   ctx.fillStyle="white";
+    ctx.fillRect(win.x-133,0,120,35)
+    ctx.fillRect(5,0,130,35)
+    ctx.font = "25px Trebuchet MS";
+      ctx.fillStyle="black"
+    
+    ctx.fillText(`Deaths:${game.player.deaths}`,10,30)
     if(time>9){
-    text(`Time:${timeM}:${time}`,win.x-130,30)
+    ctx.fillText(`Time:${timeM}:${time}`,win.x-130,30)
     }else{
-      text(`Time:${timeM}:0${time}`,win.x-130,30)
+      ctx.fillText(`Time:${timeM}:0${time}`,win.x-130,30)
     }
+
     
   if(game.player.hero =="Jotunn"){
-     image(imgJotunn,win.x/2-25,win.y/2-28,50,55);
-    image(imgJotunnPower1,win.x/2-98,win.y-60,60,60);
-    image(imgJotunnPower2,win.x/2+40,win.y-60,60,60);
+     ctx.drawImage(imgJotunn,win.x/2-25,win.y/2-28,50,55);
+    ctx.drawImage(imgJotunnPower1,win.x/2-98,win.y-60,60,60);
+    ctx.drawImage(imgJotunnPower2,win.x/2+40,win.y-60,60,60);
     for(let enemy of game.enemies){
      if(enemy.slowdown){
-      fill(0,0,200,50);
-       noStroke();
-       rect(win.x/2-98,win.y-60,60,60);
+      ctx.fillStyle="rgba(0,0,200,0.15)"
+       ctx.fillRect(win.x/2-98,win.y-60,60,60);
        break;
      }
     }
-    if(game.player.cooldown >=1){
-      fill(0,0,255,70);
-      noStroke();
-     rect(win.x/2+40,win.y-60,60,60) 
+    if(game.player.cooldown >=0.01){
+      ctx.fillStyle="rgba(0,0,255,0.2)"
+     ctx.fillRect(win.x/2+40,win.y-60,60,60) 
     }
   }
   if(game.player.hero == "Magmax"){
-   image(imgMagmax,win.x/2-25,win.y/2-19,50,40); 
-    image(imgMagmaxPower1,win.x/2-98,win.y-60,60,60);
-    image(imgMagmaxPower2,win.x/2+40,win.y-60,60,60);
+   ctx.drawImage(imgMagmax,win.x/2-25,win.y/2-19,50,40); 
+     ctx.drawImage(imgMagmaxPower1,win.x/2-98,win.y-60,60,60);
+     ctx.drawImage(imgMagmaxPower2,win.x/2+40,win.y-60,60,60);
     if(game.player.cooldown>=1){
-       image(imgMagmaxPumpkinOff,win.x/2-30,win.y-60,60,60);
+        ctx.drawImage(imgMagmaxPumpkinOff,win.x/2-30,win.y-60,60,60);
     }else{
-    image(imgMagmaxPumpkin,win.x/2-30,win.y-60,60,60);
+     ctx.drawImage(imgMagmaxPumpkin,win.x/2-30,win.y-60,60,60);
     }
     if(game.player.flow){
-     fill(204, 126, 49,110);
-      noStroke();
-      rect(win.x/2-98,win.y-60,60,60);
+     ctx.fillStyle="rgba(204, 126, 49,0.25)"
+      ctx.fillRect(win.x/2-98,win.y-60,60,60);
     }
     if(game.player.harden){
-     fill(110, 20, 4,110);
-      noStroke();
-      rect(win.x/2+40,win.y-60,60,60);
+     ctx.fillStyle="rgba(110, 20, 4,0.25)"
+      ctx.fillRect(win.x/2+40,win.y-60,60,60);
     }
   }
   if(game.player.hero == "Kopo"){
     if(game.player.isSmall){
-   image(imgKopo,win.x/2-22,win.y/2-29.5,44,60); 
+   ctx.drawImage(imgKopo,win.x/2-22,win.y/2-29.5,44,60); 
     }else{
-      image(imgKopo,win.x/2-27,win.y/2-31.5,55,65); 
+      ctx.drawImage(imgKopo,win.x/2-27,win.y/2-31.5,55,65); 
     }
-    image(imgKopoPower1,win.x/2-98,win.y-60,60,60)
-     image(imgKopoPower2,win.x/2+40,win.y-60,60,60);
+    ctx.drawImage(imgKopoPower1,win.x/2-98,win.y-60,60,60)
+     ctx.drawImage(imgKopoPower2,win.x/2+40,win.y-60,60,60);
     if(game.player.isSmall){
-     fill(0,0,50,70);
-      rect(win.x/2-98,win.y-60,60,60);
+     ctx.fillStyle="rgba(0,0,50,0.12)"
+      ctx.fillRect(win.x/2-98,win.y-60,60,60);
     }
     if(game.player.cooldown>=1){
-      fill(0,0,70,110);
-      rect(win.x/2+40,win.y-60,60,60);
+      ctx.fillStyle="rgba(0,0,70,0.45)"
+      ctx.fillRect(win.x/2+40,win.y-60,60,60);
     }
   } 
-      
-  if(game.level>=41||game.zone ===4&&game.level>=17){
-    this.endScreen = true;
+       
+  if(game.level>=41||game.zone ===4&&game.level>=17&&!this.endScreen){
+    finishedSpeedrun = true;
+    frames= 0
     }
-    if(this.endScreen){
-      finishedSpeedrun = true;
-      game.level = 41;
-      background(125);
-      fill(0);
-      textSize(40);
-      text(`Region Defeated:${game.areas[game.zone]}`,win.x/2-230,40);
-      text(`Hero Used:${heros[currentHero]}`,win.x/2-150,80);
-      if(time<9){
-      text(`Time:${timeM}:0${time}`,win.x/2-70,120);
-        }else{
-         text(`Time:${timeM}:${time}`,win.x/2-70,120); 
-        }
-      text(`Deaths:${game.player.deaths}`,win.x/2-70,160);
-      if(skippedLevel || skipLevel){
-        fill(255,0,0);
-        noStroke();
-        circle(win.x/2+30,win.y/2-10,300,300);
-        fill(0);
-       text(`Skipped Levels`,win.x/2-100,win.y/2) 
-      } 
-    }
-         if(this.fades!=[]){
+    
+   
+    if(this.fades!=[]){
      for(let i=this.fades.length-1;i>=0;i--){
-      this.fades[i].simulate();
+      this.fades[i].simulate(dt);
        if(this.fades[i].pos.x<-win.x*3){
-        display.fades.splice(i,1); 
+        this.fades.splice(i,1); 
        }
      }
     }
