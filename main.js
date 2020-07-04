@@ -107,7 +107,7 @@ var mouse = new Vec(0,0);
 function setup() {
   noCanvas()
  // frameRate(60);
-  engine.start();
+
   if(mainMenu){
   win = new Vec(1280,720);
   }
@@ -124,6 +124,7 @@ canvas.style.position = "absolute";
       mouse = new Vec((t.pageX - e.left) / s,(t.pageY - e.top) / s)
 }
   loadImages();
+ engine.start();
 }
 function keyPressed(){
   if(!mainMenu){
