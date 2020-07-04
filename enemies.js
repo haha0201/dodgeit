@@ -154,7 +154,7 @@ class IcicleEnemy extends Enemy{
       this.pos.y+=this.yv*0.8*(dt)*playSpeed
       this.cooldownTillDone-=60*dt;
     }
-    if(this.cooldownTillDone <0.01){
+    if(this.cooldownTillDone <=0){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
@@ -215,7 +215,7 @@ class SizingEnemy extends Enemy{
       this.pos.y+=this.yv*0.8*(dt)*playSpeed
       this.cooldownTillDone-=60*dt;
     }
-    if(this.cooldownTillDone <0.01){
+    if(this.cooldownTillDone  <=0){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
@@ -242,7 +242,7 @@ class CircleEnemy extends Enemy{
   this.pos.y += this.yv*((cos(frames/40)+1)*(dt)*0.8*playSpeed+ random(-0.1, 0.1))
       this.cooldownTillDone-=60*dt;
     }
-      if(this.cooldownTillDone <0.01){
+      if(this.cooldownTillDone <=0){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
@@ -279,7 +279,7 @@ class RotatingEnemy extends Enemy{
       this.pos.y+=this.yv*0.8*dt*playSpeed
       this.cooldownTillDone-=60*dt;
     }
-      if(this.cooldownTillDone <0.01){
+      if(this.cooldownTillDone <=0){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
@@ -310,7 +310,7 @@ class WeirdEnemy extends Enemy{
       this.pos.y+=this.yv*cos((sin(frames/40)+1))*0.8*(dt)*playSpeed
       this.cooldownTillDone-=60*dt;
     }
-      if(this.cooldownTillDone <0.01){
+      if(this.cooldownTillDone  <=0){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
@@ -343,7 +343,7 @@ class HomingEnemy extends Enemy{
      this.pos.y += this.yv*(Math.sin(frames/this.period)+1)*0.8*(dt)*playSpeed
       this.cooldownTillDone-=60*dt;
     }
-      if(this.cooldownTillDone <0.01){
+      if(this.cooldownTillDone <=0){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
@@ -387,7 +387,7 @@ class FreezeSniper extends Enemy{
     if(this.shatter){
      this.cooldownTillDone-=60*dt; 
     }
-      if(this.cooldownTillDone <0.01){
+      if(this.cooldownTillDone  <=0){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
@@ -495,7 +495,7 @@ class SwitchEnemy extends Enemy{
       this.pos.y+=this.yv*0.8*(dt)*playSpeed
       this.cooldownTillDone-=60*dt;
     }
-    if(this.cooldownTillDone <0.01){
+    if(this.cooldownTillDone  <=0){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
@@ -547,7 +547,7 @@ class Exploder extends Enemy{
     if(this.shatter){
      this.cooldownTillDone-=60*dt; 
     }
-      if(this.cooldownTillDone <0.01){
+      if(this.cooldownTillDone <=0){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
@@ -602,7 +602,7 @@ class Sniper extends Enemy{
     if(this.shatter){
      this.cooldownTillDone=60*dt; 
     }
-      if(this.cooldownTillDone <0.01){
+      if(this.cooldownTillDone <=0){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
@@ -632,7 +632,7 @@ class DasherEnemy extends Enemy{
       this.pos.y += this.yv*(sin(frames/40)+1)*0.8*(dt)*playSpeed
       this.cooldownTillDone-=60*dt;
     }
-      if(this.cooldownTillDone <0.01){
+      if(this.cooldownTillDone  <=0){
      this.shatter = false; 
       this.cooldownTillDone = undefined;
     }
