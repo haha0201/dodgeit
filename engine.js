@@ -1,19 +1,20 @@
   class Engine{
    constructor(update,render){
      this.afr = undefined;
-     this.lastTime = window.performance.now();
+     this.lastTime = null;
      this.updated = false;
    }
-    run(){
-      let now = ( (new Date().getTime()))
-     let delta =Math.min(now-this.lastTime,100)/1000
-      this.lastTime = now;
+    run(time){
+      if(this.lastTime!=null){
+     let delta =(time-this.lastTime)/1000
       update(delta);
       render(delta);
       frames+=60*delta
-      this.afr = window.requestAnimationFrame(()=>{this.run()});
+      }
+      this.lastTime = time;
+      this.afr = window.requestAnimationFrame((time)=>{this.run(time)});
     }
     start(){
-     this.afr = window.requestAnimationFrame(()=>{this.run()});
+     this.afr = window.requestAnimationFrame((time)=>{this.run(time)});
     }
   }
