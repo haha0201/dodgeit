@@ -1044,7 +1044,7 @@ Game.prototype.player = {
       }
     }
     if (controller.secondAbility) {
-      if (!this.flow && this.cooldown === 0) {
+      if (!this.flow && this.cooldown <= 0) {
         this.harden = true;
       }
 
@@ -1054,10 +1054,16 @@ Game.prototype.player = {
       if (this.harden) {
         this.spd = 0;
       }
-      if (this.cooldown >= 1 && !this.harden) {
+      if (this.cooldown >= 0.01 && !this.harden) {
         this.cooldown-=60*dt;
       }
-      if (this.harden && this.hardenMaxTime >= 1) {
+      if(this.cooldown<=0){
+       this.cooldown = 0; 
+      }
+      if(this.hardenMaxTime<=0){
+       this.hardenMaxTime =0;
+      }
+      if (this.harden && this.hardenMaxTime >= 0.01) {
         this.hardenMaxTime-=60*dt;
       }
       if (this.hardenMaxTime === 0) {
