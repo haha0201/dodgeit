@@ -20,7 +20,7 @@ var mouseMode = false;
 var timeM = 0;
 var skippedLevel = false;
 var skipLevel = false;
-var cursorSize = 0;
+var cursorSize = 5;
 var cursorChange = false;
 var fireworksIndex  = 0;
 const game = new Game();
@@ -211,7 +211,7 @@ function update(dt){
   }*/
   playerCamera = game.player.pos;
   }
-  if(cursorSize>=0&&!cursorChange){
+ /* if(cursorSize>=0&&!cursorChange){
   cursorSize+=15*dt
     cursorChange = false;
   }
@@ -225,7 +225,8 @@ function update(dt){
   if(cursorSize<=0){
     cursorSize =0;
    cursorChange = false; 
-  }
+  }*/
+ 
 
 }
 
